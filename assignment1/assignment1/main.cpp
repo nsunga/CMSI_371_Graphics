@@ -50,8 +50,6 @@ vector<Vertex> generate_points(vector<Vertex> control_points) {
         
         GLfloat x_midpoint = (v_0.get_x() + v_1.get_x())/2;
         GLfloat y_midpoint = (v_0.get_y() + v_1.get_y())/2;
-        std::cout << y_midpoint << std::endl;
-        std::cout << x_midpoint << std::endl;
 
         points.push_back(Vertex(x_midpoint, y_midpoint));
     }
@@ -87,88 +85,126 @@ void display() {
     glColor3f(0.0f, 0.0f, 0.0f);
     // Draw cartoon
     
+    // Top head
     vector<Vertex>points;
-    points.push_back(Vertex(-0.25f, 0.0f));
-    points.push_back(Vertex(0.0f, 0.25f));
-    points.push_back(Vertex(0.25f, 0.0f));
-    //points.push_back(Vertex(0.0f, -0.25f));
+    points.push_back(Vertex(-0.32f, 0.62f));
+    points.push_back(Vertex(0.0f, 1.50f));
+    points.push_back(Vertex(0.32f, 0.62f));
     
-    draw_curve(points, 5);
+    draw_curve(points, 9);
+    points.clear();
+    points.push_back(Vertex(0.32f, 0.62f));
+    points.push_back(Vertex(0.37f, 0.40f));
+    points.push_back(Vertex(0.32f, 0.24f));
+    draw_curve(points, 9);
 
-//    glBegin(GL_LINES);
-//    for(int i = 0; i < points.size() - 1; i++) {
-//        glVertex2f(points[i].get_x(), points[i].get_y());
-//        glVertex2f(points[i+1].get_x(), points[i+1].get_y());
-//
-//    }
-//    glEnd();
-
+    points.clear();
+    points.push_back(Vertex(-0.32f, 0.62f));
+    points.push_back(Vertex(-0.37f, 0.40f));
+    points.push_back(Vertex(-0.32f, 0.24f));
+    draw_curve(points, 9);
     
-//    vector<Vertex> control_point = generate_points(points);
-//    control_point.push_back(Vertex(0.25f, 0.0f));
-//    control_point.insert(control_point.begin(), Vertex(-0.25f, 0.0f));
-//
-//    glBegin(GL_LINES);
-//    for (int i = 0; i < control_point.size()-1; i++) {
-//        glVertex2f(control_point[i].get_x(), control_point[i].get_y());
-//        glVertex2f(control_point[i+1].get_x(), control_point[i+1].get_y());
-//    }
-//    glEnd();
-//    
-//    control_point = generate_points(control_point);
-//    control_point.push_back(Vertex(0.25f, 0.0f));
-//    control_point.insert(control_point.begin(), Vertex(-0.25f, 0.0f));
-//    
-//    glBegin(GL_LINES);
-//    for (int i = 0; i < control_point.size()-1; i++) {
-//        glVertex2f(control_point[i].get_x(), control_point[i].get_y());
-//        glVertex2f(control_point[i+1].get_x(), control_point[i+1].get_y());
-//    }
-//    glEnd();
-//    control_point = generate_points(control_point);
-//    control_point.push_back(Vertex(0.25f, 0.0f));
-//    control_point.insert(control_point.begin(), Vertex(-0.25f, 0.0f));
-//    
-//    glBegin(GL_LINES);
-//    for (int i = 0; i < control_point.size()-1; i++) {
-//        glVertex2f(control_point[i].get_x(), control_point[i].get_y());
-//        glVertex2f(control_point[i+1].get_x(), control_point[i+1].get_y());
-//    }
-//    glEnd();
-//    control_point = generate_points(control_point);
-//    control_point.push_back(Vertex(0.25f, 0.0f));
-//    control_point.insert(control_point.begin(), Vertex(-0.25f, 0.0f));
-//    
-//    glBegin(GL_LINES);
-//    for (int i = 0; i < control_point.size()-1; i++) {
-//        glVertex2f(control_point[i].get_x(), control_point[i].get_y());
-//        glVertex2f(control_point[i+1].get_x(), control_point[i+1].get_y());
-//    }
-//    glEnd();
-//    control_point = generate_points(control_point);
-//    control_point.push_back(Vertex(0.25f, 0.0f));
-//    control_point.insert(control_point.begin(), Vertex(-0.25f, 0.0f));
-//    
-//    glBegin(GL_LINES);
-//    for (int i = 0; i < control_point.size()-1; i++) {
-//        glVertex2f(control_point[i].get_x(), control_point[i].get_y());
-//        glVertex2f(control_point[i+1].get_x(), control_point[i+1].get_y());
-//    }
-//    glEnd();
-//    glBegin(GL_POINTS);-
-//    glVertex2f(0.0f, 0.5f);
-//    glVertex2f(-0.5f, -0.5f);
-//    glVertex2f(0.5f, -0.5f);
-//    glEnd();
-//    
-//    // Draw 2 lines
-//    glBegin(GL_LINES);
-//    glVertex2f(0.0f, 0.5f);
-//    glVertex2f(-0.5f, -0.5f);
-//    
-//    
-//    glVertex2f(0.0f, 0.5f);
-//    glVertex2f(0.5f, -0.5f);
+    // hair
+    points.clear();
+    points.push_back(Vertex(0.32f, 0.24f));
+    points.push_back(Vertex(0.33f, 0.27f));
+    points.push_back(Vertex(0.28f, 0.35f));
+    draw_curve(points, 9);
+
+    glBegin(GL_LINES);
+    glVertex2f(0.28f, 0.35f);
+    glVertex2f(0.28f, 0.55f);
+    glEnd();
+    
+    points.clear();
+    points.push_back(Vertex(-0.32f, 0.24f));
+    points.push_back(Vertex(-0.33f, 0.27f));
+    points.push_back(Vertex(-0.28f, 0.35f));
+    draw_curve(points, 9);
+    
+    glBegin(GL_LINES);
+    glVertex2f(-0.28f, 0.35f);
+    glVertex2f(-0.28f, 0.55f);
+    glEnd();
+    
+    points.clear();
+    points.push_back(Vertex(0.28f, 0.55f));
+    points.push_back(Vertex(0.0f, 0.40f));
+    points.push_back(Vertex(-0.28f, 0.55f));
+    draw_curve(points, 9);
+
+
+    // right ear
+    points.clear();
+    points.push_back(Vertex(0.32f, 0.24f));
+    points.push_back(Vertex(0.36f, 0.45f));
+    points.push_back(Vertex(0.37f, 0.24f));
+    draw_curve(points, 9);
+    
+    points.clear();
+    points.push_back(Vertex(0.37f, 0.24f));
+    points.push_back(Vertex(0.37f, 0.22f));
+    points.push_back(Vertex(0.35f, 0.18f));
+    draw_curve(points, 9);
+
+    points.clear();
+    points.push_back(Vertex(0.35f, 0.18f));
+    points.push_back(Vertex(0.35f, 0.16f));
+    points.push_back(Vertex(0.32f, 0.14f));
+    draw_curve(points, 9);
+    
+    // left ear
+    points.clear();
+    points.push_back(Vertex(-0.32f, 0.24f));
+    points.push_back(Vertex(-0.36f, 0.45f));
+    points.push_back(Vertex(-0.37f, 0.24f));
+    draw_curve(points, 9);
+    
+    points.clear();
+    points.push_back(Vertex(-0.37f, 0.24f));
+    points.push_back(Vertex(-0.37f, 0.22f));
+    points.push_back(Vertex(-0.35f, 0.18f));
+    draw_curve(points, 9);
+    
+    points.clear();
+    points.push_back(Vertex(-0.35f, 0.18f));
+    points.push_back(Vertex(-0.35f, 0.16f));
+    points.push_back(Vertex(-0.32f, 0.14f));
+    draw_curve(points, 9);
+    
+    // bottom head
+    points.clear();
+    points.push_back(Vertex(0.32f, 0.14f));
+    points.push_back(Vertex(0.35f, -0.08f));
+    points.push_back(Vertex(0.28f, -0.19f));
+    draw_curve(points, 9);
+    
+    points.clear();
+    points.push_back(Vertex(-0.32f, 0.14f));
+    points.push_back(Vertex(-0.35f, -0.08f));
+    points.push_back(Vertex(-0.28f, -0.19f));
+    draw_curve(points, 9);
+    
+    // jaw
+    points.clear();
+    points.push_back(Vertex(0.28f, -0.19f));
+    points.push_back(Vertex(0.24f, -0.32f));
+    points.push_back(Vertex(0.05f, -0.45f));
+    draw_curve(points, 9);
+    
+    points.clear();
+    points.push_back(Vertex(-0.28f, -0.19f));
+    points.push_back(Vertex(-0.24f, -0.32f));
+    points.push_back(Vertex(-0.05f, -0.45f));
+    draw_curve(points, 9);
+
+    // chin
+    points.clear();
+    points.push_back(Vertex(-0.05f, -0.45f));
+    points.push_back(Vertex(0.0f, -0.47f));
+    points.push_back(Vertex(0.05f, -0.45f));
+    draw_curve(points, 9);
+
     
     
     glEnd();
