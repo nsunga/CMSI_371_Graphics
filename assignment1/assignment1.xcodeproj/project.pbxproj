@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7B6769252019233F00776DD3 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B6769242019233F00776DD3 /* main.cpp */; };
+		7B6769252019233F00776DD3 /* assignment1.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B6769242019233F00776DD3 /* assignment1.cpp */; };
 		7B67692D201923A700776DD3 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B67692C201923A700776DD3 /* OpenGL.framework */; };
 		7B67692F201923B800776DD3 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B67692E201923B800776DD3 /* GLUT.framework */; };
 /* End PBXBuildFile section */
@@ -26,7 +26,7 @@
 
 /* Begin PBXFileReference section */
 		7B6769212019233F00776DD3 /* assignment1 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = assignment1; sourceTree = BUILT_PRODUCTS_DIR; };
-		7B6769242019233F00776DD3 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		7B6769242019233F00776DD3 /* assignment1.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = assignment1.cpp; sourceTree = "<group>"; };
 		7B67692C201923A700776DD3 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		7B67692E201923B800776DD3 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -64,7 +64,7 @@
 		7B6769232019233F00776DD3 /* assignment1 */ = {
 			isa = PBXGroup;
 			children = (
-				7B6769242019233F00776DD3 /* main.cpp */,
+				7B6769242019233F00776DD3 /* assignment1.cpp */,
 			);
 			path = assignment1;
 			sourceTree = "<group>";
@@ -135,7 +135,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B6769252019233F00776DD3 /* main.cpp in Sources */,
+				7B6769252019233F00776DD3 /* assignment1.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -262,6 +262,7 @@
 				7B67692A2019233F00776DD3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
