@@ -6,8 +6,9 @@
  
  Collaborators: None bruh
  
- Project Summary: A short paragraph (3-4 sentences) describing the work you
- did for the project: e.g. did you use the iterative or recursive approach?
+ Project Summary: Project cartoonifies Kanye West's face. The curves are either
+ basic GL_LINES or GL_LINES constructed from Bezier's algorithm. I used the
+ iterative approach just so I don't blow up the stack.
  ***/
 
 #ifdef __APPLE__
@@ -87,92 +88,71 @@ void display() {
     
     // Top head
     vector<Vertex>points;
-    points.push_back(Vertex(-0.32f, 0.62f));
-    points.push_back(Vertex(0.0f, 1.50f));
-    points.push_back(Vertex(0.32f, 0.62f));
-    
-    draw_curve(points, 9);
-    points.clear();
-    points.push_back(Vertex(0.32f, 0.62f));
-    points.push_back(Vertex(0.37f, 0.40f));
-    points.push_back(Vertex(0.32f, 0.24f));
-    draw_curve(points, 9);
-
-    points.clear();
-    points.push_back(Vertex(-0.32f, 0.62f));
-    points.push_back(Vertex(-0.37f, 0.40f));
     points.push_back(Vertex(-0.32f, 0.24f));
+    points.push_back(Vertex(-0.47f, 1.0f));
+    points.push_back(Vertex(-0.32f, 0.58));
+    points.push_back(Vertex(-0.15, 0.70f));
+    points.push_back(Vertex(0.0f, 1.50f));
+    points.push_back(Vertex(0.15, 0.70f));
+    points.push_back(Vertex(0.32f, 0.58));
+    points.push_back(Vertex(0.47f, 1.0));
+    points.push_back(Vertex(0.32f, 0.24f));
     draw_curve(points, 9);
     
     // hair
     points.clear();
-    points.push_back(Vertex(0.32f, 0.24f));
-    points.push_back(Vertex(0.33f, 0.27f));
-    points.push_back(Vertex(0.28f, 0.35f));
-    draw_curve(points, 9);
-
-    glBegin(GL_LINES);
-    glVertex2f(0.28f, 0.35f);
-    glVertex2f(0.28f, 0.55f);
-    glEnd();
-    
-    points.clear();
     points.push_back(Vertex(-0.32f, 0.24f));
     points.push_back(Vertex(-0.33f, 0.27f));
-    points.push_back(Vertex(-0.28f, 0.35f));
+    points.push_back(Vertex(-0.26f, 0.35f));
     draw_curve(points, 9);
     
     glBegin(GL_LINES);
-    glVertex2f(-0.28f, 0.35f);
-    glVertex2f(-0.28f, 0.55f);
+    glVertex2f(-0.26f, 0.35f);
+    glVertex2f(-0.26f, 0.60f);
     glEnd();
     
     points.clear();
-    points.push_back(Vertex(0.28f, 0.55f));
-    points.push_back(Vertex(0.0f, 0.40f));
-    points.push_back(Vertex(-0.28f, 0.55f));
+    points.push_back(Vertex(-0.26f, 0.60f));
+    points.push_back(Vertex(0.0f, 0.45f));
+    points.push_back(Vertex(0.26f, 0.60f));
     draw_curve(points, 9);
-
+    
+    glBegin(GL_LINES);
+    glVertex2f(0.26f, 0.60f);
+    glVertex2f(0.26f, 0.35f);
+    glEnd();
+    
+    points.clear();
+    points.push_back(Vertex(0.26f, 0.35f));
+    points.push_back(Vertex(0.33f, 0.27f));
+    points.push_back(Vertex(0.32f, 0.24f));
+    draw_curve(points, 9);
 
     // right ear
     points.clear();
     points.push_back(Vertex(0.32f, 0.24f));
     points.push_back(Vertex(0.36f, 0.45f));
-    points.push_back(Vertex(0.37f, 0.24f));
-    draw_curve(points, 9);
-    
-    points.clear();
-    points.push_back(Vertex(0.37f, 0.24f));
-    points.push_back(Vertex(0.37f, 0.22f));
-    points.push_back(Vertex(0.35f, 0.18f));
-    draw_curve(points, 9);
-
-    points.clear();
+    points.push_back(Vertex(0.40f, 0.24f));
+    points.push_back(Vertex(0.39f, 0.22f));
     points.push_back(Vertex(0.35f, 0.18f));
     points.push_back(Vertex(0.35f, 0.16f));
-    points.push_back(Vertex(0.32f, 0.14f));
+    points.push_back(Vertex(0.34f, 0.05f));
+    points.push_back(Vertex(0.32f, 0.10f));
     draw_curve(points, 9);
     
     // left ear
     points.clear();
     points.push_back(Vertex(-0.32f, 0.24f));
     points.push_back(Vertex(-0.36f, 0.45f));
-    points.push_back(Vertex(-0.37f, 0.24f));
-    draw_curve(points, 9);
-    
-    points.clear();
-    points.push_back(Vertex(-0.37f, 0.24f));
-    points.push_back(Vertex(-0.37f, 0.22f));
-    points.push_back(Vertex(-0.35f, 0.18f));
-    draw_curve(points, 9);
-    
-    points.clear();
+    points.push_back(Vertex(-0.40f, 0.24f));
+    points.push_back(Vertex(-0.39f, 0.22f));
     points.push_back(Vertex(-0.35f, 0.18f));
     points.push_back(Vertex(-0.35f, 0.16f));
-    points.push_back(Vertex(-0.32f, 0.14f));
+    points.push_back(Vertex(-0.34f, 0.05f));
+    points.push_back(Vertex(-0.32f, 0.10f));
     draw_curve(points, 9);
     
-    // bottom head
+    // bottom head, jaw, chin
     points.clear();
     points.push_back(Vertex(0.32f, 0.14f));
     points.push_back(Vertex(0.35f, -0.08f));
@@ -180,36 +160,40 @@ void display() {
     draw_curve(points, 9);
     
     points.clear();
-    points.push_back(Vertex(-0.32f, 0.14f));
-    points.push_back(Vertex(-0.35f, -0.08f));
-    points.push_back(Vertex(-0.28f, -0.19f));
-    draw_curve(points, 9);
-    
-    // jaw
-    points.clear();
     points.push_back(Vertex(0.28f, -0.19f));
     points.push_back(Vertex(0.24f, -0.32f));
     points.push_back(Vertex(0.05f, -0.45f));
     draw_curve(points, 9);
     
     points.clear();
-    points.push_back(Vertex(-0.28f, -0.19f));
-    points.push_back(Vertex(-0.24f, -0.32f));
-    points.push_back(Vertex(-0.05f, -0.45f));
-    draw_curve(points, 9);
-
-    // chin
-    points.clear();
-    points.push_back(Vertex(-0.05f, -0.45f));
-    points.push_back(Vertex(0.0f, -0.47f));
     points.push_back(Vertex(0.05f, -0.45f));
+    points.push_back(Vertex(0.0f, -0.47f));
+    points.push_back(Vertex(-0.05f, -0.45f));
+    draw_curve(points, 9);
+    
+    points.clear();
+    points.push_back(Vertex(-0.05f, -0.45f));
+    points.push_back(Vertex(-0.24f, -0.32f));
+    points.push_back(Vertex(-0.28f, -0.19f));
     draw_curve(points, 9);
 
-    // eyebrows
     points.clear();
-    points.push_back(Vertex(0.05f, 0.24f));
-    points.push_back(Vertex(0.25f, 0.33f));
+    points.push_back(Vertex(-0.28f, -0.19f));
+    points.push_back(Vertex(-0.35f, -0.08f));
+    points.push_back(Vertex(-0.32f, 0.14f));
+    draw_curve(points, 9);
+
+    // right eyebrow
+    points.clear();
+    points.push_back(Vertex(0.1f, 0.22f));
+    points.push_back(Vertex(0.17f, 0.26f));
     points.push_back(Vertex(0.23f, 0.24f));
+    draw_curve(points, 9);
+    
+    points.clear();
+    points.push_back(Vertex(0.23f, 0.24f));
+    points.push_back(Vertex(0.25f, 0.33f));
+    points.push_back(Vertex(0.05f, 0.24f));
     draw_curve(points, 9);
     
     points.clear();
@@ -218,16 +202,17 @@ void display() {
     points.push_back(Vertex(0.1f, 0.22f));
     draw_curve(points, 9);
     
+    // left eyebrow
     points.clear();
-    points.push_back(Vertex(0.1f, 0.22f));
-    points.push_back(Vertex(0.17f, 0.26f));
-    points.push_back(Vertex(0.23f, 0.24f));
+    points.push_back(Vertex(-0.1f, 0.22f));
+    points.push_back(Vertex(-0.17f, 0.26f));
+    points.push_back(Vertex(-0.23f, 0.24f));
     draw_curve(points, 9);
     
     points.clear();
-    points.push_back(Vertex(-0.05f, 0.24f));
-    points.push_back(Vertex(-0.25f, 0.33f));
     points.push_back(Vertex(-0.23f, 0.24f));
+    points.push_back(Vertex(-0.25f, 0.33f));
+    points.push_back(Vertex(-0.05f, 0.24f));
     draw_curve(points, 9);
     
     points.clear();
@@ -236,13 +221,7 @@ void display() {
     points.push_back(Vertex(-0.1f, 0.22f));
     draw_curve(points, 9);
     
-    points.clear();
-    points.push_back(Vertex(-0.1f, 0.22f));
-    points.push_back(Vertex(-0.17f, 0.26f));
-    points.push_back(Vertex(-0.23f, 0.24f));
-    draw_curve(points, 9);
-    
-    // eyes
+    // right eye
     points.clear();
     points.push_back(Vertex(0.07f, 0.17f));
     points.push_back(Vertex(0.17f, 0.27f));
@@ -250,9 +229,9 @@ void display() {
     draw_curve(points, 9);
     
     points.clear();
-    points.push_back(Vertex(0.07f, 0.17f));
-    points.push_back(Vertex(0.17f, 0.09f));
     points.push_back(Vertex(0.22f, 0.17f));
+    points.push_back(Vertex(0.17f, 0.09f));
+    points.push_back(Vertex(0.07f, 0.17f));
     draw_curve(points, 9);
     
     points.clear();
@@ -261,6 +240,7 @@ void display() {
     points.push_back(Vertex(0.18f, 0.19f));
     draw_curve(points, 9);
     
+    // left eye
     points.clear();
     points.push_back(Vertex(-0.07f, 0.17f));
     points.push_back(Vertex(-0.17f, 0.27f));
@@ -280,7 +260,6 @@ void display() {
     draw_curve(points, 9);
     
     // nose
-    
     points.clear();
     points.push_back(Vertex(0.04f, 0.17f));
     points.push_back(Vertex(0.0f, 0.15f));
@@ -288,33 +267,15 @@ void display() {
     draw_curve(points, 9);
     
     points.clear();
-    points.push_back(Vertex(-0.04f, 0.17f));
-    points.push_back(Vertex(0.0f, 0.15f));
-    points.push_back(Vertex(-0.03f, 0.13f));
-    draw_curve(points, 9);
-    
-    points.clear();
     points.push_back(Vertex(0.03f, 0.13f));
     points.push_back(Vertex(0.0f, 0.12f));
     points.push_back(Vertex(0.075f, -0.05f));
     draw_curve(points, 9);
     
     points.clear();
-    points.push_back(Vertex(-0.03f, 0.13f));
-    points.push_back(Vertex(0.0f, 0.12f));
-    points.push_back(Vertex(-0.075f, -0.05f));
-    draw_curve(points, 9);
-
-    points.clear();
     points.push_back(Vertex(0.075f, -0.05f));
     points.push_back(Vertex(0.1f, -0.082f));
     points.push_back(Vertex(0.060f, -0.1f));
-    draw_curve(points, 9);
-
-    points.clear();
-    points.push_back(Vertex(-0.075f, -0.05f));
-    points.push_back(Vertex(-0.1f, -0.082f));
-    points.push_back(Vertex(-0.060f, -0.1f));
     draw_curve(points, 9);
     
     points.clear();
@@ -324,30 +285,40 @@ void display() {
     draw_curve(points, 9);
     
     points.clear();
-    points.push_back(Vertex(-0.060f, -0.1f));
-    points.push_back(Vertex(-0.045f, -0.075f));
+    points.push_back(Vertex(0.030f, -0.1f));
+    points.push_back(Vertex(0.0f, -0.15f));
     points.push_back(Vertex(-0.030f, -0.1f));
     draw_curve(points, 9);
     
     points.clear();
     points.push_back(Vertex(-0.030f, -0.1f));
-    points.push_back(Vertex(0.0f, -0.15f));
-    points.push_back(Vertex(0.030f, -0.1f));
+    points.push_back(Vertex(-0.045f, -0.075f));
+    points.push_back(Vertex(-0.060f, -0.1f));
+    draw_curve(points, 9);
+    
+    points.clear();
+    points.push_back(Vertex(-0.060f, -0.1f));
+    points.push_back(Vertex(-0.1f, -0.082f));
+    points.push_back(Vertex(-0.075f, -0.05f));
+    draw_curve(points, 9);
+    
+    points.clear();
+    points.push_back(Vertex(-0.075f, -0.05f));
+    points.push_back(Vertex(0.0f, 0.12f));
+    points.push_back(Vertex(-0.03f, 0.13f));
+    draw_curve(points, 9);
+    
+    points.clear();
+    points.push_back(Vertex(-0.03f, 0.13f));
+    points.push_back(Vertex(0.0f, 0.15f));
+    points.push_back(Vertex(-0.04f, 0.17f));
     draw_curve(points, 9);
     
     // goatee baby
-    
-    
     points.clear();
     points.push_back(Vertex(-0.15f, -0.35f));
     points.push_back(Vertex(-0.15f, -0.25f));
     points.push_back(Vertex(-0.12f, -0.2f));
-    draw_curve(points, 9);
-    
-    points.clear();
-    points.push_back(Vertex(0.15f, -0.35f));
-    points.push_back(Vertex(0.15f, -0.25f));
-    points.push_back(Vertex(0.12f, -0.2f));
     draw_curve(points, 9);
     
     points.clear();
@@ -356,10 +327,11 @@ void display() {
     points.push_back(Vertex(0.12f, -0.2f));
     draw_curve(points, 9);
     
-
-    
-    
-    
+    points.clear();
+    points.push_back(Vertex(0.12f, -0.2f));
+    points.push_back(Vertex(0.15f, -0.25f));
+    points.push_back(Vertex(0.15f, -0.35f));
+    draw_curve(points, 9);
     
     points.clear();
     points.push_back(Vertex(-0.13f, -0.375f));
@@ -368,15 +340,15 @@ void display() {
     draw_curve(points, 9);
     
     points.clear();
-    points.push_back(Vertex(0.13f, -0.375f));
-    points.push_back(Vertex(0.13f, -0.25f));
+    points.push_back(Vertex(-0.10f, -0.2f));
+    points.push_back(Vertex(0.0f, -0.1f));
     points.push_back(Vertex(0.10f, -0.2f));
     draw_curve(points, 9);
     
     points.clear();
-    points.push_back(Vertex(-0.10f, -0.2f));
-    points.push_back(Vertex(0.0f, -0.1f));
     points.push_back(Vertex(0.10f, -0.2f));
+    points.push_back(Vertex(0.13f, -0.25f));
+    points.push_back(Vertex(0.13f, -0.375f));
     draw_curve(points, 9);
     
     points.clear();
@@ -399,21 +371,21 @@ void display() {
     draw_curve(points, 9);
     
     points.clear();
-    points.push_back(Vertex(0.1f, -0.25f));
-    points.push_back(Vertex(0.05f, -0.15f));
-    points.push_back(Vertex(0.025f, -0.20f));
-    draw_curve(points, 9);
-    
-    points.clear();
     points.push_back(Vertex(-0.025f, -0.20f));
     points.push_back(Vertex(0.0f, -0.25f));
     points.push_back(Vertex(0.025f, -0.20f));
     draw_curve(points, 9);
     
     points.clear();
-    points.push_back(Vertex(-0.1f, -0.25f));
-    points.push_back(Vertex(0.0f, -0.5f));
+    points.push_back(Vertex(0.025f, -0.20f));
+    points.push_back(Vertex(0.05f, -0.15f));
     points.push_back(Vertex(0.1f, -0.25f));
+    draw_curve(points, 9);
+    
+    points.clear();
+    points.push_back(Vertex(0.1f, -0.25f));
+    points.push_back(Vertex(0.0f, -0.5f));
+    points.push_back(Vertex(-0.1f, -0.25f));
     draw_curve(points, 9);
     
     points.clear();
