@@ -4,7 +4,7 @@
  
  Name: Sunga, Nicholas
  
- Collaborators: None bruh
+ Collaborators: Daniel Sjarif
  
  Project Summary: Project cartoonifies Kanye West's face. The curves are either
  basic GL_LINES or GL_LINES constructed from Bezier's algorithm. I used the
@@ -358,7 +358,7 @@ void display() {
         vector<Vertex> points_i = initial_points[i];
         draw_curve(points_i, 9);
     }
-    glEnd();
+
     glutSwapBuffers();
 }
 
