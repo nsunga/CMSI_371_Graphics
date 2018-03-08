@@ -71,9 +71,6 @@ vector<GLfloat> to_homogenous_coord(vector<GLfloat> cartesian_coords) {
         result.push_back(1.0f);
     }
     
-    cout << "cartesian: " << &cartesian_coords << endl;
-    cout << "result: " << &result << endl;
-    
     // Append the 1 in the 4th dimension to generate homoegenous coordinates
     
     return result;
@@ -198,6 +195,7 @@ void display_func() {
 
 
 int main (int argc, char **argv) {
+
     // Initialize GLUT
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
@@ -212,7 +210,8 @@ int main (int argc, char **argv) {
     glutDisplayFunc(display_func);
     // Render our world
     glutMainLoop();
-    
+    cout << "passed main loop" << endl;
+
     // Remember to call "delete" on your dynmically allocated arrays
     // such that you don't suffer from memory leaks. e.g.
     // delete arr;
