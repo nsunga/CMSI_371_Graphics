@@ -102,7 +102,12 @@ vector<GLfloat> translation_matrix (float dx, float dy, float dz) {
 
 // Definition of a scaling matrix
 vector<GLfloat> scaling_matrix (float sx, float sy, float sz) {
-    vector<GLfloat> scale_mat;
+    vector<GLfloat> scale_mat = {
+        sx, 0.0, 0.0, 0.0,
+        0.0, sy, 0.0, 0.0,
+        0.0, 0.0, sz, 0.0,
+        0.0, 0.0, 0.0, 1.0
+    };
     
     return scale_mat;
 }
