@@ -90,7 +90,12 @@ vector<GLfloat> to_cartesian_coord(vector<GLfloat> homogenous_coords) {
 
 // Definition of a translation matrix
 vector<GLfloat> translation_matrix (float dx, float dy, float dz) {
-    vector<GLfloat> translate_mat;
+    vector<GLfloat> translate_mat = {
+        1.0, 0.0, 0.0, dx,
+        0.0, 1.0, 0.0, dy,
+        0.0, 0.0, 1.0, dz,
+        0.0, 0.0, 0.0, 1.0
+    };
     
     return translate_mat;
 }
@@ -193,6 +198,33 @@ void display_func() {
     glutSwapBuffers();
 }
 
+/*TODO: DELETE THIS */
+void print_homog_vector(vector<GLfloat> print_this) {
+    int new_line_counter = 0;
+    for (int i = 0; i < print_this.size(); i++) {
+        cout << print_this[i] << ", ";
+        new_line_counter = new_line_counter + 1;
+        if (new_line_counter == 4) {
+            cout << endl;
+            new_line_counter = 0;
+        }
+    }
+}
+
+/*TODO: DELETE THIS */
+void print_cart_vector(vector<GLfloat> print_this) {
+    int new_line_counter = 0;
+    for (int i = 0; i < print_this.size(); i++) {
+        cout << print_this[i] << ", ";
+        new_line_counter = new_line_counter + 1;
+        if (new_line_counter == 3) {
+            cout << endl;
+            new_line_counter = 0;
+        }
+    }
+
+}
+
 
 int main (int argc, char **argv) {
 
@@ -209,6 +241,9 @@ int main (int argc, char **argv) {
     // Set up our display function
     glutDisplayFunc(display_func);
     // Render our world
+    vector<GLfloat> trans_result = translation_matrix(2.0, 0.5, 0.12);
+    print_homog_vector(trans_result);
+    
     glutMainLoop();
     cout << "passed main loop" << endl;
 
