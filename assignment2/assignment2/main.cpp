@@ -1,7 +1,7 @@
 /***
  Assignment-2: Geometric Modeling of a Scene
  
- Name: Wong, Alex (Please write your name in Last Name, First Name format)
+ Name: Sunga, Nick
  
  Collaborators: Doe, John; Doe, Jane
  ** Note: although the assignment should be completed individually
@@ -26,6 +26,8 @@
 
 #include <math.h>
 #include <vector>
+#include <iostream> /* TODO: REMOVE */
+#include <string>
 using namespace std;
 
 /**************************************************
@@ -61,6 +63,17 @@ GLfloat* vector2array(vector<GLfloat> vec) {
 vector<GLfloat> to_homogenous_coord(vector<GLfloat> cartesian_coords) {
     vector<GLfloat> result;
     
+    for (int i = 0; i < cartesian_coords.size(); i++) {
+        result.push_back(cartesian_coords[i]);
+    }
+    
+    for (int i = 0; i < 3; i++) {
+        result.push_back(1.0f);
+    }
+    
+    cout << "cartesian: " << &cartesian_coords << endl;
+    cout << "result: " << &result << endl;
+    
     // Append the 1 in the 4th dimension to generate homoegenous coordinates
     
     return result;
@@ -70,6 +83,9 @@ vector<GLfloat> to_homogenous_coord(vector<GLfloat> cartesian_coords) {
 vector<GLfloat> to_cartesian_coord(vector<GLfloat> homogenous_coords) {
     vector<GLfloat> result;
     
+    for (int i = 0; i < homogenous_coords.size() - 3; i++) {
+        result.push_back(homogenous_coords[i]);
+    }
     // Remove the 1 in the 4th dimension to generate Cartesian coordinates
     
     return result;
