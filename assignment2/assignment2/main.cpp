@@ -112,8 +112,20 @@ vector<GLfloat> scaling_matrix (float sx, float sy, float sz) {
     return scale_mat;
 }
 
+// Converts degrees to radians
+float degrees_to_radians(float theta) {
+    return theta * (M_PI/180);
+}
+
 // Definition of a rotation matrix along the x-axis theta degrees
 vector<GLfloat> rotation_matrix_x (float theta) {
+    float radians_value = degrees_to_radians(theta);
+    cout << "theta in radians: " << radians_value << endl;
+    cout << "sin(theta): " << sin(radians_value) << endl;
+    cout << "cos(theta): " << cos(radians_value) << endl;
+    cout << "tan(theta): " << tan(radians_value) << endl;
+
+    
     vector<GLfloat> rotate_mat_x;
     
     return rotate_mat_x;
@@ -246,8 +258,7 @@ int main (int argc, char **argv) {
     // Set up our display function
     glutDisplayFunc(display_func);
     // Render our world
-    vector<GLfloat> trans_result = translation_matrix(2.0, 0.5, 0.12);
-    print_homog_vector(trans_result);
+    rotation_matrix_x(45.0);
     
     glutMainLoop();
     cout << "passed main loop" << endl;
