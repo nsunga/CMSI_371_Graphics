@@ -166,7 +166,43 @@ vector<GLfloat> rotation_matrix_x (float theta) {
 // Definition of a rotation matrix along the y-axis by theta degrees
 vector<GLfloat> rotation_matrix_y (float theta) {
     vector<GLfloat> rotate_mat_y;
+    // takes care of negative zero cause thats so dumb
+    bool sin_adjusted = false;
+    float sin_value;
+    float cos_value;
+    float radians_value = degrees_to_radians(theta);
     
+    if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
+        sin_value = 0.0;
+        sin_adjusted = true;
+        cout << "less than eps sin" << endl;
+    } else {
+        sin_value = sin(radians_value);
+    }
+    
+    if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
+        cout << "less than eps cos" << endl;
+        cos_value = 0.0;
+    } else {
+        cos_value = cos(radians_value);
+    }
+    
+    if (sin_adjusted) {
+        rotate_mat_y = {
+            cos_value, 0.0, sin_value, 0.0,
+            0.0, 1.0, 0.0, 0.0,
+            sin_value, 0.0, cos_value, 0.0,
+            0.0, 0.0, 0.0, 1.0
+        };
+    } else {
+        rotate_mat_y = {
+            cos_value, 0.0, sin_value, 0.0,
+            0.0, 1.0, 0.0, 0.0,
+            -sin_value, 0.0, cos_value, 0.0,
+            0.0, 0.0, 0.0, 1.0
+        };
+    }
+
     return rotate_mat_y;
 }
 
@@ -291,7 +327,7 @@ int main (int argc, char **argv) {
     // Render our world
     //rotation_matrix_x(45.0);
     
-    print_homog_vector(rotation_matrix_x(90.0));
+    print_homog_vector(rotation_matrix_y(180.0));
     glutMainLoop();
     cout << "passed main loop" << endl;
 
