@@ -66,11 +66,15 @@ vector<GLfloat> to_homogenous_coord(vector<GLfloat> cartesian_coords) {
     
     for (int i = 0; i < cartesian_coords.size(); i++) {
         result.push_back(cartesian_coords[i]);
+
+        if ((i + 1) % 3 == 0) {
+            result.push_back(1.0f);
+        }
     }
     
-    for (int i = 0; i < 3; i++) {
-        result.push_back(1.0f);
-    }
+//    for (int i = 0; i < 3; i++) {
+//        result.push_back(1.0f);
+//    }
     
     // Append the 1 in the 4th dimension to generate homoegenous coordinates
     
@@ -81,9 +85,15 @@ vector<GLfloat> to_homogenous_coord(vector<GLfloat> cartesian_coords) {
 vector<GLfloat> to_cartesian_coord(vector<GLfloat> homogenous_coords) {
     vector<GLfloat> result;
     
-    for (int i = 0; i < homogenous_coords.size() - 3; i++) {
-        result.push_back(homogenous_coords[i]);
+    for (int i = 0; i < homogenous_coords.size(); i++) {
+        if ((i + 1) % 4 != 0) {
+            result.push_back(homogenous_coords[i]);
+        }
     }
+    
+//    for (int i = 0; i < homogenous_coords.size() - 3; i++) {
+//        result.push_back(homogenous_coords[i]);
+//    }
     // Remove the 1 in the 4th dimension to generate Cartesian coordinates
     
     return result;
@@ -364,8 +374,7 @@ int main (int argc, char **argv) {
     glutDisplayFunc(display_func);
     // Render our world
     //rotation_matrix_x(45.0);
-    
-    print_homog_vector(rotation_matrix_z(90.0));
+    //print_homog_vector(rotation_matrix_z(90.0));
     glutMainLoop();
     cout << "passed main loop" << endl;
 
