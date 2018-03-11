@@ -264,6 +264,13 @@ vector<GLfloat> rotation_matrix_z (float theta) {
 
 // Perform matrix multiplication for A B
 vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
+//    vector<GLfloat> b_col_one;
+//    vector<GLfloat> b_col_two;
+//    vector<GLfloat> b_col_three;
+//    vector<GLfloat> b_col_four;
+    
+
+
     vector<GLfloat> result;
     
     // Perform matrix multiplication for A B
