@@ -71,11 +71,6 @@ vector<GLfloat> to_homogenous_coord(vector<GLfloat> cartesian_coords) {
             result.push_back(1.0f);
         }
     }
-    
-//    for (int i = 0; i < 3; i++) {
-//        result.push_back(1.0f);
-//    }
-    
     // Append the 1 in the 4th dimension to generate homoegenous coordinates
     
     return result;
@@ -90,10 +85,6 @@ vector<GLfloat> to_cartesian_coord(vector<GLfloat> homogenous_coords) {
             result.push_back(homogenous_coords[i]);
         }
     }
-    
-//    for (int i = 0; i < homogenous_coords.size() - 3; i++) {
-//        result.push_back(homogenous_coords[i]);
-//    }
     // Remove the 1 in the 4th dimension to generate Cartesian coordinates
     
     return result;
@@ -101,26 +92,26 @@ vector<GLfloat> to_cartesian_coord(vector<GLfloat> homogenous_coords) {
 
 // Definition of a translation matrix
 vector<GLfloat> translation_matrix (float dx, float dy, float dz) {
-    vector<GLfloat> translate_mat = {
-        1.0, 0.0, 0.0, dx,
-        0.0, 1.0, 0.0, dy,
-        0.0, 0.0, 1.0, dz,
-        0.0, 0.0, 0.0, 1.0
+    vector<GLfloat> translate = {
+        1.0, 0.0, 0.0, 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0,
+        dx, dy, dz, 1.0
     };
     
-    return translate_mat;
+    return translate;
 }
 
 // Definition of a scaling matrix
 vector<GLfloat> scaling_matrix (float sx, float sy, float sz) {
-    vector<GLfloat> scale_mat = {
+    vector<GLfloat> scale = {
         sx, 0.0, 0.0, 0.0,
         0.0, sy, 0.0, 0.0,
         0.0, 0.0, sz, 0.0,
         0.0, 0.0, 0.0, 1.0
     };
     
-    return scale_mat;
+    return scale;
 }
 
 // Converts degrees to radians
@@ -132,39 +123,38 @@ float degrees_to_radians(float theta) {
 vector<GLfloat> rotation_matrix_x (float theta) {
     // takes care of negative zero cause thats so dumb
     bool sin_adjusted = false;
-    float sin_value;
-    float cos_value;
+    float sin_;
+    float cos_;
     float radians_value = degrees_to_radians(theta);
     vector<GLfloat> rotate_mat_x;
-
     
     if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
-        sin_value = 0.0;
+        sin_ = 0.0;
         sin_adjusted = true;
         cout << "less than eps sin" << endl;
     } else {
-        sin_value = sin(radians_value);
+        sin_ = sin(radians_value);
     }
 
     if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
         cout << "less than eps cos" << endl;
-        cos_value = 0.0;
+        cos_ = 0.0;
     } else {
-        cos_value = cos(radians_value);
+        cos_ = cos(radians_value);
     }
 
     if (sin_adjusted) {
         rotate_mat_x = {
             1.0, 0.0, 0.0, 0.0,
-            0.0, cos_value, sin_value, 0.0,
-            0.0, sin_value, cos_value, 0.0,
+            0.0, cos_, sin_, 0.0,
+            0.0, sin_, cos_, 0.0,
             0.0, 0.0, 0.0, 1.0
         };
     } else {
         rotate_mat_x = {
             1.0, 0.0, 0.0, 0.0,
-            0.0, cos_value, -sin_value, 0.0,
-            0.0, sin_value, cos_value, 0.0,
+            0.0, cos_, sin_, 0.0,
+            0.0, -sin_, cos_, 0.0,
             0.0, 0.0, 0.0, 1.0
         };
     }
@@ -177,39 +167,38 @@ vector<GLfloat> rotation_matrix_x (float theta) {
 vector<GLfloat> rotation_matrix_y (float theta) {
     // takes care of negative zero cause thats so dumb
     bool sin_adjusted = false;
-    float sin_value;
-    float cos_value;
+    float sin_;
+    float cos_;
     float radians_value = degrees_to_radians(theta);
     vector<GLfloat> rotate_mat_y;
-
     
     if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
-        sin_value = 0.0;
+        sin_ = 0.0;
         sin_adjusted = true;
         cout << "less than eps sin" << endl;
     } else {
-        sin_value = sin(radians_value);
+        sin_ = sin(radians_value);
     }
     
     if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
         cout << "less than eps cos" << endl;
-        cos_value = 0.0;
+        cos_ = 0.0;
     } else {
-        cos_value = cos(radians_value);
+        cos_ = cos(radians_value);
     }
     
     if (sin_adjusted) {
         rotate_mat_y = {
-            cos_value, 0.0, sin_value, 0.0,
+            cos_, 0.0, sin_, 0.0,
             0.0, 1.0, 0.0, 0.0,
-            sin_value, 0.0, cos_value, 0.0,
+            sin_, 0.0, cos_, 0.0,
             0.0, 0.0, 0.0, 1.0
         };
     } else {
         rotate_mat_y = {
-            cos_value, 0.0, sin_value, 0.0,
+            cos_, 0.0, -sin_, 0.0,
             0.0, 1.0, 0.0, 0.0,
-            -sin_value, 0.0, cos_value, 0.0,
+            sin_, 0.0, cos_, 0.0,
             0.0, 0.0, 0.0, 1.0
         };
     }
@@ -222,38 +211,38 @@ vector<GLfloat> rotation_matrix_y (float theta) {
 vector<GLfloat> rotation_matrix_z (float theta) {
     // takes care of negative zero cause thats so dumb
     bool sin_adjusted = false;
-    float sin_value;
-    float cos_value;
+    float sin_;
+    float cos_;
     float radians_value = degrees_to_radians(theta);
     vector<GLfloat> rotate_mat_z;
     
     
     if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
-        sin_value = 0.0;
+        sin_ = 0.0;
         sin_adjusted = true;
         cout << "less than eps sin" << endl;
     } else {
-        sin_value = sin(radians_value);
+        sin_ = sin(radians_value);
     }
     
     if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
         cout << "less than eps cos" << endl;
-        cos_value = 0.0;
+        cos_ = 0.0;
     } else {
-        cos_value = cos(radians_value);
+        cos_ = cos(radians_value);
     }
     
     if (sin_adjusted) {
         rotate_mat_z = {
-            cos_value, sin_value, 0.0, 0.0,
-            sin_value, cos_value, 0.0, 0.0,
+            cos_, sin_, 0.0, 0.0,
+            sin_, cos_, 0.0, 0.0,
             0.0, 0.0, 1.0, 0.0,
             0.0, 0.0, 0.0, 1.0
         };
     } else {
         rotate_mat_z = {
-            cos_value, -sin_value, 0.0, 0.0,
-            sin_value, cos_value, 0.0, 0.0,
+            cos_, sin_, 0.0, 0.0,
+            -sin_, cos_, 0.0, 0.0,
             0.0, 0.0, 1.0, 0.0,
             0.0, 0.0, 0.0, 1.0
         };
