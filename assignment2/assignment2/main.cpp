@@ -93,12 +93,11 @@ vector<GLfloat> to_cartesian_coord(vector<GLfloat> homogenous_coords) {
 // Definition of a translation matrix
 vector<GLfloat> translation_matrix (float dx, float dy, float dz) {
     vector<GLfloat> translate = {
-        1.0, 0.0, 0.0, 0.0,
-        0.0, 1.0, 0.0, 0.0,
-        0.0, 0.0, 1.0, 0.0,
-        dx, dy, dz, 1.0
+        1.0, 0.0, 0.0, dx,
+        0.0, 1.0, 0.0, dy,
+        0.0, 0.0, 1.0, dz,
+        0.0, 0.0, 0.0, 1.0
     };
-    
     return translate;
 }
 
@@ -153,8 +152,8 @@ vector<GLfloat> rotation_matrix_x (float theta) {
     } else {
         rotate_mat_x = {
             1.0, 0.0, 0.0, 0.0,
-            0.0, cos_, sin_, 0.0,
-            0.0, -sin_, cos_, 0.0,
+            0.0, cos_, -sin_, 0.0,
+            0.0, sin_, cos_, 0.0,
             0.0, 0.0, 0.0, 1.0
         };
     }
@@ -196,9 +195,9 @@ vector<GLfloat> rotation_matrix_y (float theta) {
         };
     } else {
         rotate_mat_y = {
-            cos_, 0.0, -sin_, 0.0,
+            cos_, 0.0, sin_, 0.0,
             0.0, 1.0, 0.0, 0.0,
-            sin_, 0.0, cos_, 0.0,
+            -sin_, 0.0, cos_, 0.0,
             0.0, 0.0, 0.0, 1.0
         };
     }
@@ -241,8 +240,8 @@ vector<GLfloat> rotation_matrix_z (float theta) {
         };
     } else {
         rotate_mat_z = {
-            cos_, sin_, 0.0, 0.0,
-            -sin_, cos_, 0.0, 0.0,
+            cos_, -sin_, 0.0, 0.0,
+            sin_, cos_, 0.0, 0.0,
             0.0, 0.0, 1.0, 0.0,
             0.0, 0.0, 0.0, 1.0
         };
@@ -253,12 +252,8 @@ vector<GLfloat> rotation_matrix_z (float theta) {
 
 // Perform matrix multiplication for A B
 vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
-//    vector<GLfloat> b_col_one;
-//    vector<GLfloat> b_col_two;
-//    vector<GLfloat> b_col_three;
-//    vector<GLfloat> b_col_four;
-    
-
+    // vector A will always be 4x4
+    // vector B -> just take every 4 points
 
     vector<GLfloat> result;
     
