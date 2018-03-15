@@ -257,40 +257,36 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
     bool done_multiplying = false;
     int lower_bound = 0;
     int upper_bound = 4;
+    int pts_in_b = b_homog.size()/4;
     
     while (!done_multiplying) {
         vector<GLfloat> row_of_A(A.begin() + lower_bound, A.begin() + upper_bound);
-        for (int i = 0; i < row_of_A.size(); i++) {
-            cout << row_of_A[i] << " " ;
-            if (upper_bound == A.size()) {
-                done_multiplying = true;
+        change_element_counter = 0;
+        
+        for (int i = 0; i < pts_in_b; i++) {
+            for (int i = 0; i < row_of_A.size(); i++) {
+
+                index_value = index_value + row_of_A[i] * b_homog[change_element_counter];
+                change_element_counter = change_element_counter + 1;
+                
+                if (change_element_counter % 4 == 0 && change_element_counter != 0) {
+                    result.push_back(index_value);
+                    index_value = 0.0;
+                }
+                
+                if (upper_bound == A.size()) {
+                    done_multiplying = true;
+                }
             }
         }
-        cout << "done" << endl;
         lower_bound = lower_bound + 4;
         upper_bound = upper_bound + 4;
     }
     
-//    for (int i = 0; i < A.size(); i++) {
-//        if (change_element_counter % 4 == 0 && change_element_counter != 0) {
-//            result.push_back(index_value);
-////            cout << "pushed" << index_value << endl;;
-//            index_value = 0.0;
-//        }
-//        if (change_element_counter + 1 == b_homog.size()) {
-//            index_value = index_value + A[i] * b_homog[change_element_counter++];
-//            result.push_back(index_value);
-//
-//            break;
-//        }
-////        cout << A[i] << " * " << b_homog[change_element_counter] << endl;
-//        index_value = index_value + A[i] * b_homog[change_element_counter++];
-//    }
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << " ";
+    }
     
-//    for (int i = 0; i < result.size(); i++) {
-//        cout << result[i] << " ";
-//    }
-//    
     cout << "done" << endl;
     // Perform matrix multiplication for A B
     
@@ -401,7 +397,7 @@ int main (int argc, char **argv) {
     // Render our world
     //rotation_matrix_x(45.0);
     //print_homog_vector(rotation_matrix_z(90.0));
-    vector<GLfloat> test_vector = {23.0, 42.0, 42.0, 0.0, 9.0, 11.0, 1.0, 0.0, 4.0, 13.0, 20.0, 7.0};
+    vector<GLfloat> test_vector = {23.0, 42.0, 42.0, 0.0, 9.0, 11.0, 0.0, 1.0, 2.0};
 //    1.0, 0.0, 0.0, dx,
 //    0.0, 1.0, 0.0, dy,
     mat_mult(translation_matrix(1.0, 1.0, 1.0), test_vector);
