@@ -147,7 +147,12 @@ vector<GLfloat> rotation_matrix_x (float theta) {
             0.0, 0.0, 0.0, 1.0
         };
     }
-    
+        for (int i = 0; i < rotate_mat_x.size(); i++) {
+            cout << rotate_mat_x[i] << ", ";
+            if ((i + 1) % 4 == 0) {
+                cout << "np rmx" << endl;
+            }
+        }
     return rotate_mat_x;
 }
 
@@ -188,12 +193,6 @@ vector<GLfloat> rotation_matrix_y (float theta) {
         };
     }
 
-//    for (int i = 0; i < rotate_mat_y.size(); i++) {
-//        cout << rotate_mat_y[i] << ", ";
-//        if ((i + 1) % 4 == 0) {
-//            cout << "np rmy" << endl;
-//        }
-//    }
     return rotate_mat_y;
 }
 
@@ -248,12 +247,7 @@ vector<GLfloat> mat_mult_helper(vector<GLfloat> B) {
 
 // Perform matrix multiplication for A B
 vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
-    
-//    if (B.size() == 16) {
-//        B = to_cartesian_coord(B);
-//    }
     vector<GLfloat> b_homog = mat_mult_helper(B);
-//    vector<GLfloat> b_homog = to_homogenous_coord(B);
     vector<GLfloat> result;
     int change_element_counter = 0;
     float index_value = 0.0;
@@ -266,30 +260,10 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
         vector<GLfloat> row_of_A(A.begin() + lower_bound, A.begin() + upper_bound);
         change_element_counter = 0;
         
-//        for (int i = 0; i < row_of_A.size(); i++) {
-//            if (i == 0) { cout << "row of A: "; }
-//            cout << row_of_A[i] << ", ";
-//        }
-//        cout << endl;
-//        cout << endl;
-//        
-//        for (int i = 0; i < 4; i++) {
-//            if (i == 0) { cout << "col of B: "; }
-//            cout << b_homog[change_element_counter + i] << ", ";
-//        }
-//        
-//        cout << endl;
-//        cout << endl;
-        
         for (int i = 0; i < pts_in_b; i++) {
             for (int i = 0; i < row_of_A.size(); i++) {
                 index_value = index_value + (row_of_A[i] * b_homog[change_element_counter]);
                 change_element_counter = change_element_counter + 1;
-                
-//                if (change_element_counter % 4 == 0 && change_element_counter != 0) {
-//                    result.push_back(index_value);
-//                    index_value = 0.0;
-//                }
                 
                 if (i == 3) {
                     result.push_back(index_value);
@@ -303,35 +277,6 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
         upper_bound = upper_bound + 4;
     }
     
-    cout << "done" << endl;
-    // Perform matrix multiplication for A B
-//    for (int i = 0; i < A.size(); i++) {
-//        cout << A[i] << ", ";
-//        if ((i + 1) % 4 == 0) {
-//            cout << "point in A" << endl;
-//        }
-//    }
-//
-//    cout << endl;
-//    cout << endl;
-//    
-//    for (int i = 0; i < B.size(); i++) {
-//        cout << B[i] << ", ";
-//        if ((i + 1) % 4 == 0) {
-//            cout << "point in B" << endl;
-//        }
-//    }
-    
-//    cout << endl;
-//    cout << endl;
-//    
-//    for (int i = 0; i < result.size(); i++) {
-//        cout << result[i] << ", ";
-//        if ((i + 1) % 4 == 0) {
-//            cout << "point in Result" << endl;
-//        }
-//    }
-//    
     int offset = 0;
     vector<GLfloat> result_pts_notation;
     for (int i = 0; i < 4; i++) {
@@ -341,13 +286,7 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
         }
         offset = 0;
     }
-    
-//    for (int i = 0; i < result_pts_notation.size(); i++) {
-//        cout << result_pts_notation[i] << ", ";
-//        if ((i + 1) % 4 == 0) {
-//            cout << "point in pts form" << endl;
-//        }
-//    }
+
     return result_pts_notation;
 }
 
@@ -355,14 +294,11 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
 vector<GLfloat> build_cube() {
     vector<GLfloat> back_plane = mat_mult(translation_matrix(0.0, 0.0, -1.0), mat_mult(rotation_matrix_y(180), init_plane()));
     vector<GLfloat> front_plane = mat_mult(translation_matrix(0.0, 0.0, 1.0), init_plane());
-    
-    
-    for (int i = 0; i < back_plane.size(); i++) {
-        cout << back_plane[i] << ", ";
-        if ((i + 1) % 4 == 0) {
-            cout << "back plane col point" << endl;
-        }
-    }
+    vector<GLfloat> right_plane = mat_mult(translation_matrix(1.0, 0.0, 0.0), mat_mult(rotation_matrix_y(90), init_plane()));
+    vector<GLfloat> left_plane = mat_mult(translation_matrix(-1.0, 0.0, 0.0), mat_mult(rotation_matrix_y(-90), init_plane()));
+    vector<GLfloat> top_plane = mat_mult(translation_matrix(0.0, 1.0, 0.0), mat_mult(rotation_matrix_x(-90), init_plane()));
+    vector<GLfloat> bottom_plane = mat_mult(translation_matrix(0.0, -1.0, 0.0), mat_mult(rotation_matrix_x(90), init_plane()));
+    vector<GLfloat> result;
     
     for (int i = 0; i < front_plane.size(); i++) {
         cout << front_plane[i] << ", ";
@@ -370,8 +306,25 @@ vector<GLfloat> build_cube() {
             cout << "front plane col point" << endl;
         }
     }
-    vector<GLfloat> result;
     
+    for (int i = 0; i < back_plane.size(); i++) {
+        result.push_back(back_plane[i]);
+    }
+    for (int i = 0; i < front_plane.size(); i++) {
+        result.push_back(front_plane[i]);
+    }
+    for (int i = 0; i < right_plane.size(); i++) {
+        result.push_back(right_plane[i]);
+    }
+    for (int i = 0; i < left_plane.size(); i++) {
+        result.push_back(left_plane[i]);
+    }
+    for (int i = 0; i < top_plane.size(); i++) {
+        result.push_back(top_plane[i]);
+    }
+    for (int i = 0; i < bottom_plane.size(); i++) {
+        result.push_back(bottom_plane[i]);
+    }
     // Creates a unit cube by transforming a set of planes
     
     return result;
