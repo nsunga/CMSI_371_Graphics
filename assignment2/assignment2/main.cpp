@@ -147,12 +147,7 @@ vector<GLfloat> rotation_matrix_x (float theta) {
             0.0, 0.0, 0.0, 1.0
         };
     }
-        for (int i = 0; i < rotate_mat_x.size(); i++) {
-            cout << rotate_mat_x[i] << ", ";
-            if ((i + 1) % 4 == 0) {
-                cout << "np rmx" << endl;
-            }
-        }
+
     return rotate_mat_x;
 }
 
@@ -307,25 +302,25 @@ vector<GLfloat> build_cube() {
         }
     }
     
-    for (int i = 0; i < back_plane.size(); i++) {
-        result.push_back(back_plane[i]);
+    cout << endl;
+    cout << endl;
+    vector<GLfloat> front_plane_cart = to_cartesian_coord(front_plane);
+    for (int i = 0; i < front_plane_cart.size(); i++) {
+        cout << front_plane_cart[i] << ", ";
+        if ((i + 1) % 3 == 0) {
+            cout << "FPC col point" << endl;
+        }
     }
-    for (int i = 0; i < front_plane.size(); i++) {
-        result.push_back(front_plane[i]);
-    }
-    for (int i = 0; i < right_plane.size(); i++) {
-        result.push_back(right_plane[i]);
-    }
-    for (int i = 0; i < left_plane.size(); i++) {
-        result.push_back(left_plane[i]);
-    }
-    for (int i = 0; i < top_plane.size(); i++) {
-        result.push_back(top_plane[i]);
-    }
-    for (int i = 0; i < bottom_plane.size(); i++) {
-        result.push_back(bottom_plane[i]);
-    }
+    // every 16 points is a plane. every 4 points is a column of a plane
+    for (int i = 0; i < back_plane.size(); i++) { result.push_back(back_plane[i]); }
+    for (int i = 0; i < front_plane.size(); i++) { result.push_back(front_plane[i]); }
+    for (int i = 0; i < right_plane.size(); i++) { result.push_back(right_plane[i]); }
+    for (int i = 0; i < left_plane.size(); i++) { result.push_back(left_plane[i]); }
+    for (int i = 0; i < top_plane.size(); i++) { result.push_back(top_plane[i]); }
+    for (int i = 0; i < bottom_plane.size(); i++) { result.push_back(bottom_plane[i]); }
     // Creates a unit cube by transforming a set of planes
+    
+    cout << "result size: " << result.size() << endl;
     
     return result;
 }
@@ -359,6 +354,8 @@ void init_camera() {
     // Camera parameters
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+    gluPerspective(50.0, 1.0, 3.0, 7.0);
+    gluLookAt(2.0, 3.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 }
 
 // Construct the scene using objects built from cubes/prisms
