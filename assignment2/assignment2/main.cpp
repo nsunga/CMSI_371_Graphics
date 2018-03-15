@@ -243,8 +243,11 @@ vector<GLfloat> mat_mult_helper(vector<GLfloat> B) {
 // Perform matrix multiplication for A B
 vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
     
-    //vector<GLfloat> b_homog = mat_mult_helper(B);
+    if (B.size() == 16) {
+        B = to_cartesian_coord(B);
+    }
     vector<GLfloat> b_homog = to_homogenous_coord(B);
+//    vector<GLfloat> b_homog = to_homogenous_coord(B);
     vector<GLfloat> result;
     int change_element_counter = 0;
     float index_value = 0.0;
@@ -289,6 +292,7 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
 vector<GLfloat> build_cube() {
     vector<GLfloat> back_plane = mat_mult(translation_matrix(0.0, 0.0, -1.0), init_plane());
     vector<GLfloat> front_plane = mat_mult(translation_matrix(0.0, 0.0, 1.0), init_plane());
+    
     for (int i = 0; i < front_plane.size(); i++) {
         cout << front_plane[i] << ", ";
         if ((i + 1) % 4 == 0) {
