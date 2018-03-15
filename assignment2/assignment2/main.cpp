@@ -233,7 +233,10 @@ vector<GLfloat> rotation_matrix_z (float theta) {
 
 // Transforms B into homog if not already homog
 vector<GLfloat> mat_mult_helper(vector<GLfloat> B) {
-    if (B.size() % 4 != 0 && B.size() != 0) { return to_homogenous_coord(B); }
+    if (B.size() % 4 != 0 && B.size() != 0) {
+        cout << "IN MMH => turn into homog" << endl;
+        return to_homogenous_coord(B);
+    }
     return B;
 }
 
@@ -283,6 +286,7 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
 
 // Builds a unit cube centered at the origin
 vector<GLfloat> build_cube() {
+    vector<GLfloat> back_plane = mat_mult(init_plane(), translation_matrix(0.0, 0.0, -1.0));
     vector<GLfloat> result;
     
     // Creates a unit cube by transforming a set of planes
