@@ -67,9 +67,7 @@ vector<GLfloat> to_homogenous_coord(vector<GLfloat> cartesian_coords) {
     for (int i = 0; i < cartesian_coords.size(); i++) {
         result.push_back(cartesian_coords[i]);
 
-        if ((i + 1) % 3 == 0) {
-            result.push_back(1.0f);
-        }
+        if ((i + 1) % 3 == 0) { result.push_back(1.0f); }
     }
     
     return result;
@@ -80,9 +78,7 @@ vector<GLfloat> to_cartesian_coord(vector<GLfloat> homogenous_coords) {
     vector<GLfloat> result;
     
     for (int i = 0; i < homogenous_coords.size(); i++) {
-        if ((i + 1) % 4 != 0) {
-            result.push_back(homogenous_coords[i]);
-        }
+        if ((i + 1) % 4 != 0) { result.push_back(homogenous_coords[i]); }
     }
     
     return result;
@@ -129,16 +125,12 @@ vector<GLfloat> rotation_matrix_x (float theta) {
         sin_ = 0.0;
         sin_adjusted = true;
         cout << "less than eps sin" << endl;
-    } else {
-        sin_ = sin(radians_value);
-    }
+    } else { sin_ = sin(radians_value); }
 
     if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
         cout << "less than eps cos" << endl;
         cos_ = 0.0;
-    } else {
-        cos_ = cos(radians_value);
-    }
+    } else { cos_ = cos(radians_value); }
 
     if (sin_adjusted) {
         rotate_mat_x = {
@@ -173,16 +165,12 @@ vector<GLfloat> rotation_matrix_y (float theta) {
         sin_ = 0.0;
         sin_adjusted = true;
         cout << "less than eps sin" << endl;
-    } else {
-        sin_ = sin(radians_value);
-    }
+    } else { sin_ = sin(radians_value); }
     
     if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
         cout << "less than eps cos" << endl;
         cos_ = 0.0;
-    } else {
-        cos_ = cos(radians_value);
-    }
+    } else { cos_ = cos(radians_value); }
     
     if (sin_adjusted) {
         rotate_mat_y = {
@@ -217,16 +205,12 @@ vector<GLfloat> rotation_matrix_z (float theta) {
         sin_ = 0.0;
         sin_adjusted = true;
         cout << "less than eps sin" << endl;
-    } else {
-        sin_ = sin(radians_value);
-    }
+    } else { sin_ = sin(radians_value); }
     
     if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
         cout << "less than eps cos" << endl;
         cos_ = 0.0;
-    } else {
-        cos_ = cos(radians_value);
-    }
+    } else { cos_ = cos(radians_value); }
     
     if (sin_adjusted) {
         rotate_mat_z = {
@@ -249,9 +233,7 @@ vector<GLfloat> rotation_matrix_z (float theta) {
 
 // Transforms B into homog if not already homog
 vector<GLfloat> mat_mult_helper(vector<GLfloat> B) {
-    if (B.size() % 4 != 0 && B.size() != 0) {
-        return to_homogenous_coord(B);
-    }
+    if (B.size() % 4 != 0 && B.size() != 0) { return to_homogenous_coord(B); }
     return B;
 }
 
@@ -282,9 +264,7 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
                     index_value = 0.0;
                 }
                 
-                if (upper_bound == A.size()) {
-                    done_multiplying = true;
-                }
+                if (upper_bound == A.size()) { done_multiplying = true; }
             }
         }
         lower_bound = lower_bound + 4;
@@ -359,34 +339,6 @@ void display_func() {
     glFlush();			//Finish rendering
     glutSwapBuffers();
 }
-
-/*TODO: DELETE THIS */
-void print_homog_vector(vector<GLfloat> print_this) {
-    int new_line_counter = 0;
-    for (int i = 0; i < print_this.size(); i++) {
-        cout << print_this[i] << ", ";
-        new_line_counter = new_line_counter + 1;
-        if (new_line_counter == 4) {
-            cout << endl;
-            new_line_counter = 0;
-        }
-    }
-}
-
-/*TODO: DELETE THIS */
-void print_cart_vector(vector<GLfloat> print_this) {
-    int new_line_counter = 0;
-    for (int i = 0; i < print_this.size(); i++) {
-        cout << print_this[i] << ", ";
-        new_line_counter = new_line_counter + 1;
-        if (new_line_counter == 3) {
-            cout << endl;
-            new_line_counter = 0;
-        }
-    }
-
-}
-
 
 int main (int argc, char **argv) {
 
