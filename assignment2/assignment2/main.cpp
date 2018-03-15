@@ -243,7 +243,8 @@ vector<GLfloat> mat_mult_helper(vector<GLfloat> B) {
 // Perform matrix multiplication for A B
 vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
     
-    vector<GLfloat> b_homog = mat_mult_helper(B);
+    //vector<GLfloat> b_homog = mat_mult_helper(B);
+    vector<GLfloat> b_homog = to_homogenous_coord(B);
     vector<GLfloat> result;
     int change_element_counter = 0;
     float index_value = 0.0;
@@ -274,9 +275,9 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
         upper_bound = upper_bound + 4;
     }
     
-    for (int i = 0; i < result.size(); i++) {
-        cout << result[i] << " ";
-    }
+//    for (int i = 0; i < result.size(); i++) {
+//        cout << result[i] << " ";
+//    }
     
     cout << "done" << endl;
     // Perform matrix multiplication for A B
@@ -286,7 +287,14 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
 
 // Builds a unit cube centered at the origin
 vector<GLfloat> build_cube() {
-    vector<GLfloat> back_plane = mat_mult(init_plane(), translation_matrix(0.0, 0.0, -1.0));
+    vector<GLfloat> back_plane = mat_mult(translation_matrix(0.0, 0.0, -1.0), init_plane());
+    vector<GLfloat> front_plane = mat_mult(translation_matrix(0.0, 0.0, 1.0), init_plane());
+    for (int i = 0; i < front_plane.size(); i++) {
+        cout << front_plane[i] << ", ";
+        if ((i + 1) % 4 == 0) {
+            cout << "new point" << endl;
+        }
+    }
     vector<GLfloat> result;
     
     // Creates a unit cube by transforming a set of planes
@@ -359,12 +367,9 @@ int main (int argc, char **argv) {
     // Set up our display function
     glutDisplayFunc(display_func);
     // Render our world
-    //rotation_matrix_x(45.0);
-    //print_homog_vector(rotation_matrix_z(90.0));
     vector<GLfloat> test_vector = {23.0, 42.0, 42.0, 0.0, 9.0, 11.0, 0.0, 1.0, 2.0};
-//    1.0, 0.0, 0.0, dx,
-//    0.0, 1.0, 0.0, dy,
-    mat_mult(translation_matrix(1.0, 1.0, 1.0), test_vector);
+//    mat_mult(translation_matrix(1.0, 1.0, 1.0), test_vector);
+    test_vector = build_cube();
     glutMainLoop();
     cout << "passed main loop" << endl;
 
