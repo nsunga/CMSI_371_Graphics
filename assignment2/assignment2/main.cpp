@@ -213,7 +213,6 @@ vector<GLfloat> rotation_matrix_z (float theta) {
     float radians_value = degrees_to_radians(theta);
     vector<GLfloat> rotate_mat_z;
     
-    
     if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
         sin_ = 0.0;
         sin_adjusted = true;
@@ -248,9 +247,18 @@ vector<GLfloat> rotation_matrix_z (float theta) {
     return rotate_mat_z;
 }
 
+// Transforms B into homog if not already homog
+vector<GLfloat> mat_mult_helper(vector<GLfloat> B) {
+    if (B.size() % 4 != 0 && B.size() != 0) {
+        return to_homogenous_coord(B);
+    }
+    return B;
+}
+
 // Perform matrix multiplication for A B
 vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
-    vector<GLfloat> b_homog = to_homogenous_coord(B);
+    
+    vector<GLfloat> b_homog = mat_mult_helper(B);
     vector<GLfloat> result;
     int change_element_counter = 0;
     float index_value = 0.0;
