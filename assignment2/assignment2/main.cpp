@@ -133,40 +133,40 @@ vector<GLfloat> rotation_matrix_x (float theta) {
     float radians_value = degrees_to_radians(theta);
     vector<GLfloat> rotate_mat_x;
     
-//    if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
-//        sin_ = 0.0;
-//        sin_adjusted = true;
-//        cout << "less than eps sin" << endl;
-//    } else { sin_ = sin(radians_value); }
-//
-//    if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
-//        cout << "less than eps cos" << endl;
-//        cos_ = 0.0;
-//    } else { cos_ = cos(radians_value); }
-//
-//    if (sin_adjusted) {
-//        rotate_mat_x = {
-//            1.0, 0.0, 0.0, 0.0,
-//            0.0, cos_, sin_, 0.0,
-//            0.0, sin_, cos_, 0.0,
-//            0.0, 0.0, 0.0, 1.0
-//        };
-//    } else {
-//        rotate_mat_x = {
-//            1.0, 0.0, 0.0, 0.0,
-//            0.0, cos_, -sin_, 0.0,
-//            0.0, sin_, cos_, 0.0,
-//            0.0, 0.0, 0.0, 1.0
-//        };
-//    }
-    sin_ = sin(radians_value);
-    cos_ = cos(radians_value);
-    rotate_mat_x = {
-        1.0, 0.0, 0.0, 0.0,
-        0.0, cos_, -sin_, 0.0,
-        0.0, sin_, cos_, 0.0,
-        0.0, 0.0, 0.0, 1.0
-    };
+    if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
+        sin_ = 0.0;
+        sin_adjusted = true;
+        cout << "less than eps sin" << endl;
+    } else { sin_ = sin(radians_value); }
+
+    if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
+        cout << "less than eps cos" << endl;
+        cos_ = 0.0;
+    } else { cos_ = cos(radians_value); }
+
+    if (sin_adjusted) {
+        rotate_mat_x = {
+            1.0, 0.0, 0.0, 0.0,
+            0.0, cos_, sin_, 0.0,
+            0.0, sin_, cos_, 0.0,
+            0.0, 0.0, 0.0, 1.0
+        };
+    } else {
+        rotate_mat_x = {
+            1.0, 0.0, 0.0, 0.0,
+            0.0, cos_, -sin_, 0.0,
+            0.0, sin_, cos_, 0.0,
+            0.0, 0.0, 0.0, 1.0
+        };
+    }
+//    sin_ = sin(radians_value);
+//    cos_ = cos(radians_value);
+//    rotate_mat_x = {
+//        1.0, 0.0, 0.0, 0.0,
+//        0.0, cos_, -sin_, 0.0,
+//        0.0, sin_, cos_, 0.0,
+//        0.0, 0.0, 0.0, 1.0
+//    };
     return rotate_mat_x;
 }
 
@@ -180,41 +180,41 @@ vector<GLfloat> rotation_matrix_y (float theta) {
     float radians_value = degrees_to_radians(theta);
     vector<GLfloat> rotate_mat_y;
     
-//    if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
-//        sin_ = 0.0;
-//        sin_adjusted = true;
-//        cout << "less than eps sin" << endl;
-//    } else { sin_ = sin(radians_value); }
-//    
-//    if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
-//        cout << "less than eps cos" << endl;
-//        cos_ = 0.0;
-//    } else { cos_ = cos(radians_value); }
-//    
-//    if (sin_adjusted) {
-//        rotate_mat_y = {
-//            cos_, 0.0, sin_, 0.0,
-//            0.0, 1.0, 0.0, 0.0,
-//            sin_, 0.0, cos_, 0.0,
-//            0.0, 0.0, 0.0, 1.0
-//        };
-//    } else {
-//        rotate_mat_y = {
-//            cos_, 0.0, sin_, 0.0,
-//            0.0, 1.0, 0.0, 0.0,
-//            -sin_, 0.0, cos_, 0.0,
-//            0.0, 0.0, 0.0, 1.0
-//        };
-//    }
+    if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
+        sin_ = 0.0;
+        sin_adjusted = true;
+        cout << "less than eps sin" << endl;
+    } else { sin_ = sin(radians_value); }
+    
+    if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
+        cout << "less than eps cos" << endl;
+        cos_ = 0.0;
+    } else { cos_ = cos(radians_value); }
+    
+    if (sin_adjusted) {
+        rotate_mat_y = {
+            cos_, 0.0, sin_, 0.0,
+            0.0, 1.0, 0.0, 0.0,
+            sin_, 0.0, cos_, 0.0,
+            0.0, 0.0, 0.0, 1.0
+        };
+    } else {
+        rotate_mat_y = {
+            cos_, 0.0, sin_, 0.0,
+            0.0, 1.0, 0.0, 0.0,
+            -sin_, 0.0, cos_, 0.0,
+            0.0, 0.0, 0.0, 1.0
+        };
+    }
 
-    sin_ = sin(radians_value);
-    cos_ = cos(radians_value);
-    rotate_mat_y = {
-        cos_, 0.0, sin_, 0.0,
-        0.0, 1.0, 0.0, 0.0,
-        -sin_, 0.0, cos_, 0.0,
-        0.0, 0.0, 0.0, 1.0
-    };
+//    sin_ = sin(radians_value);
+//    cos_ = cos(radians_value);
+//    rotate_mat_y = {
+//        cos_, 0.0, sin_, 0.0,
+//        0.0, 1.0, 0.0, 0.0,
+//        -sin_, 0.0, cos_, 0.0,
+//        0.0, 0.0, 0.0, 1.0
+//    };
     return rotate_mat_y;
 }
 
@@ -228,40 +228,40 @@ vector<GLfloat> rotation_matrix_z (float theta) {
     float radians_value = degrees_to_radians(theta);
     vector<GLfloat> rotate_mat_z;
     
-//    if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
-//        sin_ = 0.0;
-//        sin_adjusted = true;
-//        cout << "less than eps sin" << endl;
-//    } else { sin_ = sin(radians_value); }
-//    
-//    if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
-//        cout << "less than eps cos" << endl;
-//        cos_ = 0.0;
-//    } else { cos_ = cos(radians_value); }
-//    
-//    if (sin_adjusted) {
-//        rotate_mat_z = {
-//            cos_, sin_, 0.0, 0.0,
-//            sin_, cos_, 0.0, 0.0,
-//            0.0, 0.0, 1.0, 0.0,
-//            0.0, 0.0, 0.0, 1.0
-//        };
-//    } else {
-//        rotate_mat_z = {
-//            cos_, -sin_, 0.0, 0.0,
-//            sin_, cos_, 0.0, 0.0,
-//            0.0, 0.0, 1.0, 0.0,
-//            0.0, 0.0, 0.0, 1.0
-//        };
-//    }
-    sin_ = sin(radians_value);
-    cos_ = cos(radians_value);
-    rotate_mat_z = {
-        cos_, -sin_, 0.0, 0.0,
-        sin_, cos_, 0.0, 0.0,
-        0.0, 0.0, 1.0, 0.0,
-        0.0, 0.0, 0.0, 1.0
-    };
+    if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
+        sin_ = 0.0;
+        sin_adjusted = true;
+        cout << "less than eps sin" << endl;
+    } else { sin_ = sin(radians_value); }
+    
+    if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
+        cout << "less than eps cos" << endl;
+        cos_ = 0.0;
+    } else { cos_ = cos(radians_value); }
+    
+    if (sin_adjusted) {
+        rotate_mat_z = {
+            cos_, sin_, 0.0, 0.0,
+            sin_, cos_, 0.0, 0.0,
+            0.0, 0.0, 1.0, 0.0,
+            0.0, 0.0, 0.0, 1.0
+        };
+    } else {
+        rotate_mat_z = {
+            cos_, -sin_, 0.0, 0.0,
+            sin_, cos_, 0.0, 0.0,
+            0.0, 0.0, 1.0, 0.0,
+            0.0, 0.0, 0.0, 1.0
+        };
+    }
+//    sin_ = sin(radians_value);
+//    cos_ = cos(radians_value);
+//    rotate_mat_z = {
+//        cos_, -sin_, 0.0, 0.0,
+//        sin_, cos_, 0.0, 0.0,
+//        0.0, 0.0, 1.0, 0.0,
+//        0.0, 0.0, 0.0, 1.0
+//    };
 
     return rotate_mat_z;
 }
@@ -330,22 +330,8 @@ vector<GLfloat> build_cube() {
     vector<GLfloat> bottom_plane = mat_mult(translation_matrix(0.0, -1.0, 0.0), mat_mult(rotation_matrix_x(90), init_plane()));
     vector<GLfloat> result;
     
-//    for (int i = 0; i < front_plane.size(); i++) {
-//        cout << front_plane[i] << ", ";
-//        if ((i + 1) % 4 == 0) {
-//            cout << "front plane col point" << endl;
-//        }
-//    }
-    
-    cout << endl;
-    cout << endl;
     vector<GLfloat> front_plane_cart = to_cartesian_coord(front_plane);
-//    for (int i = 0; i < front_plane_cart.size(); i++) {
-//        cout << front_plane_cart[i] << ", ";
-//        if ((i + 1) % 3 == 0) {
-//            cout << "FPC col point" << endl;
-//        }
-//    }
+
     // every 16 points is a plane. every 4 points is a column of a plane
     for (int i = 0; i < front_plane.size(); i++) { result.push_back(front_plane[i]); }
     for (int i = 0; i < back_plane.size(); i++) { result.push_back(back_plane[i]); }
@@ -357,7 +343,8 @@ vector<GLfloat> build_cube() {
     
 //    cout << "result size: " << result.size() << endl;
     
-    return to_cartesian_coord(result);
+//    return to_cartesian_coord(result);
+    return result;
 //    return front_plane_cart;
 }
 
@@ -412,17 +399,7 @@ void display_func() {
     glRotatef(theta, 0.0, 1.0, 0.0);
     glRotatef(theta, 1.0, 0.0, 0.0);
 
-    vector<GLfloat> front_plane_cart = build_cube();
-//    GLfloat fpc_vertices[front_plane_cart.size()];
-    GLfloat *fpc_vertices = vector2array(front_plane_cart);
-//    for (int i = 0; i < 12; i++) {
-//        cout << *(fpc_vertices + i) << ", ";
-//        if ((i + 1) % 3 == 0) {
-//            cout << "point fpc" << endl;
-//        }
-//    }
-    // Perform display functions
-//    GLfloat vertices[] = new GLfloat[12];
+    GLfloat *results_vertices = vector2array(to_cartesian_coord(build_cube()));
     
     GLfloat colors[] = {
         // Front plane
@@ -456,39 +433,8 @@ void display_func() {
         0.0,    1.0,    1.0,
         0.0,    1.0,    1.0,
     };
-//    GLfloat colors[] = {
-//        // Front plane
-//        0.5,    0.0,    0.0,
-//        0.5,    0.0,    0.0,
-//        0.5,    0.0,    0.0,
-//        0.5,    0.0,    0.0,
-//        // Back plane
-//        0.0,    0.5,    0.0,
-//        0.0,    0.5,    0.0,
-//        0.0,    0.5,    0.0,
-//        0.0,    0.5,    0.0,
-//        // Right
-//        0.0,    0.0,    0.5,
-//        0.0,    0.0,    0.5,
-//        0.0,    0.0,    0.5,
-//        0.0,    0.0,    0.5,
-//        // Left
-//        0.5,    0.5,    0.0,
-//        0.5,    0.5,    0.0,
-//        0.5,    0.5,    0.0,
-//        0.5,    0.5,    0.0,
-//        // Top
-//        0.5,    0.0,    0.5,
-//        0.5,    0.0,    0.5,
-//        0.5,    0.0,    0.5,
-//        0.5,    0.0,    0.5,
-//        // Bottom
-//        0.0,    0.5,    0.5,
-//        0.0,    0.5,    0.5,
-//        0.0,    0.5,    0.5,
-//        0.0,    0.5,    0.5,
-//    };
-    glVertexPointer(3, GL_FLOAT, 0, fpc_vertices);
+
+    glVertexPointer(3, GL_FLOAT, 0, results_vertices);
     glColorPointer(3,           // 3 components (r, g, b)
                    GL_FLOAT,    // Vertex type is GL_FLOAT
                    0,           // Start position in referenced memory
@@ -519,9 +465,6 @@ int main (int argc, char **argv) {
 //    glutIdleFunc(idle_func);
 
     // Render our world
-//    vector<GLfloat> test_vector = {23.0, 42.0, 42.0, 0.0, 9.0, 11.0, 0.0, 1.0, 2.0};
-//    mat_mult(translation_matrix(1.0, 1.0, 1.0), test_vector);
-//    test_vector = build_cube();
     
     glutMainLoop();
     cout << "passed main loop" << endl;
