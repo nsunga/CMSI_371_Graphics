@@ -288,7 +288,7 @@ vector<GLfloat> build_cube() {
     vector<GLfloat> bottom_plane = mat_mult(translation_matrix(0.0, -0.5, 0.0), mat_mult(rotation_matrix_x(90), init_plane_homog));
     vector<GLfloat> result;
     
-    // every 16 points is a plane. every 4 points is a column of a plane
+    // every 16 points is a plane. every 4 points is a column or point of a plane
     for (int i = 0; i < front_plane.size(); i++) { result.push_back(front_plane[i]); }
     for (int i = 0; i < back_plane.size(); i++) { result.push_back(back_plane[i]); }
     for (int i = 0; i < right_plane.size(); i++) { result.push_back(right_plane[i]); }
