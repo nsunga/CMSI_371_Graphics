@@ -3,13 +3,16 @@
  
  Name: Sunga, Nick
  
- Collaborators: Doe, John; Doe, Jane
+ Collaborators: Daniel Sjarif, Alejandro Zapata
  ** Note: although the assignment should be completed individually
  you may speak with classmates on high level algorithmic concepts. Please
  list their names in this section
  
- Project Summary: A short paragraph (3-4 sentences) describing the work you
- did for the project.
+ Project Summary: I COULD NOT CREATE A SCENE. All I have to show is the unit
+ cube with the camera rotating around it. I tried making transformations onto
+ the cube in 'init_scene()' to create more interesting objects but the canvas
+ was just a mess and looked like "modern art". All methods have been
+ implemented though...Pls don't grade too hard.
  ***/
 
 
@@ -26,8 +29,6 @@
 
 #include <math.h>
 #include <vector>
-#include <iostream> /* TODO: REMOVE */
-#include <string>
 #include <limits>
 using namespace std;
 
@@ -116,7 +117,7 @@ float degrees_to_radians(float theta) {
 // Definition of a rotation matrix along the x-axis theta degrees
 vector<GLfloat> rotation_matrix_x (float theta) {
     // takes care of negative zero cause thats so dumb
-    bool sin_adjusted = false;
+    bool sin_negat_zero = false;
     float sin_;
     float cos_;
     float radians_value = degrees_to_radians(theta);
@@ -124,14 +125,14 @@ vector<GLfloat> rotation_matrix_x (float theta) {
     
     if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
         sin_ = 0.0;
-        sin_adjusted = true;
+        sin_negat_zero = true;
     } else { sin_ = sin(radians_value); }
 
     if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
         cos_ = 0.0;
     } else { cos_ = cos(radians_value); }
 
-    if (sin_adjusted) {
+    if (sin_negat_zero) {
         rotate_mat_x = {
             1.0, 0.0, 0.0, 0.0,
             0.0, cos_, sin_, 0.0,
@@ -154,7 +155,7 @@ vector<GLfloat> rotation_matrix_x (float theta) {
 // Definition of a rotation matrix along the y-axis by theta degrees
 vector<GLfloat> rotation_matrix_y (float theta) {
     // takes care of negative zero cause thats so dumb
-    bool sin_adjusted = false;
+    bool sin_negat_zero = false;
     float sin_;
     float cos_;
     float radians_value = degrees_to_radians(theta);
@@ -162,14 +163,14 @@ vector<GLfloat> rotation_matrix_y (float theta) {
     
     if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
         sin_ = 0.0;
-        sin_adjusted = true;
+        sin_negat_zero = true;
     } else { sin_ = sin(radians_value); }
     
     if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
         cos_ = 0.0;
     } else { cos_ = cos(radians_value); }
     
-    if (sin_adjusted) {
+    if (sin_negat_zero) {
         rotate_mat_y = {
             cos_, 0.0, sin_, 0.0,
             0.0, 1.0, 0.0, 0.0,
@@ -192,7 +193,7 @@ vector<GLfloat> rotation_matrix_y (float theta) {
 // Definition of a rotation matrix along the z-axis by theta degrees
 vector<GLfloat> rotation_matrix_z (float theta) {
     // takes care of negative zero cause thats so dumb
-    bool sin_adjusted = false;
+    bool sin_negat_zero = false;
     float sin_;
     float cos_;
     float radians_value = degrees_to_radians(theta);
@@ -200,14 +201,14 @@ vector<GLfloat> rotation_matrix_z (float theta) {
     
     if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
         sin_ = 0.0;
-        sin_adjusted = true;
+        sin_negat_zero = true;
     } else { sin_ = sin(radians_value); }
     
     if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
         cos_ = 0.0;
     } else { cos_ = cos(radians_value); }
     
-    if (sin_adjusted) {
+    if (sin_negat_zero) {
         rotate_mat_z = {
             cos_, sin_, 0.0, 0.0,
             sin_, cos_, 0.0, 0.0,
@@ -234,6 +235,7 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
     bool done_multiplying = false;
     int lower_bound = 0;
     int upper_bound = 4;
+    // pts in b is related to number of columns in B
     int pts_in_b = B.size()/4;
     
     // rows of A, times columns of B => B is always passed in as columns for every
@@ -332,9 +334,9 @@ void init_camera() {
 
 // Construct the scene using objects built from cubes/prisms
 GLfloat* init_scene() {
-    
+
+//    tried doing tranformations to the cube but canvas was a mess
 //    GLfloat* results_vertices = vector2array(to_cartesian_coord(mat_mult(translation_matrix(1.0, 1.0, 0.0), build_cube())));
-//    vector<GLfloat> test_size = to_cartesian_coord(mat_mult(translation_matrix(1.0, 1.0, 0.0), build_cube()));
     GLfloat* results_vertices = vector2array(to_cartesian_coord(build_cube()));
     return results_vertices;
 }
