@@ -56,9 +56,9 @@ vector<GLfloat> init_plane() {
 // Converts a vector to an array
 GLfloat* vector2array(vector<GLfloat> vec) {
     GLfloat* arr = new GLfloat[vec.size()];
-    for (int i = 0; i < vec.size(); i++) {
-        arr[i] = vec[i];
-    }
+    
+    for (int i = 0; i < vec.size(); i++) { arr[i] = vec[i]; }
+    
     return arr;
 }
 
@@ -78,7 +78,6 @@ vector<GLfloat> to_homogenous_coord(vector<GLfloat> cartesian_coords) {
 // Converts Cartesian coordinates to homogeneous coordinates
 vector<GLfloat> to_cartesian_coord(vector<GLfloat> homogenous_coords) {
     vector<GLfloat> result;
-    int counter = 0;
     
     for (int i = 0; i < homogenous_coords.size(); i++) {
         if ((i + 1) % 4 != 0) { result.push_back(homogenous_coords[i]); }
@@ -126,11 +125,9 @@ vector<GLfloat> rotation_matrix_x (float theta) {
     if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
         sin_ = 0.0;
         sin_adjusted = true;
-        cout << "less than eps sin" << endl;
     } else { sin_ = sin(radians_value); }
 
     if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
-        cout << "less than eps cos" << endl;
         cos_ = 0.0;
     } else { cos_ = cos(radians_value); }
 
@@ -149,14 +146,7 @@ vector<GLfloat> rotation_matrix_x (float theta) {
             0.0, 0.0, 0.0, 1.0
         };
     }
-//    sin_ = sin(radians_value);
-//    cos_ = cos(radians_value);
-//    rotate_mat_x = {
-//        1.0, 0.0, 0.0, 0.0,
-//        0.0, cos_, -sin_, 0.0,
-//        0.0, sin_, cos_, 0.0,
-//        0.0, 0.0, 0.0, 1.0
-//    };
+
     return rotate_mat_x;
 }
 
@@ -173,11 +163,9 @@ vector<GLfloat> rotation_matrix_y (float theta) {
     if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
         sin_ = 0.0;
         sin_adjusted = true;
-        cout << "less than eps sin" << endl;
     } else { sin_ = sin(radians_value); }
     
     if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
-        cout << "less than eps cos" << endl;
         cos_ = 0.0;
     } else { cos_ = cos(radians_value); }
     
@@ -197,14 +185,6 @@ vector<GLfloat> rotation_matrix_y (float theta) {
         };
     }
 
-//    sin_ = sin(radians_value);
-//    cos_ = cos(radians_value);
-//    rotate_mat_y = {
-//        cos_, 0.0, sin_, 0.0,
-//        0.0, 1.0, 0.0, 0.0,
-//        -sin_, 0.0, cos_, 0.0,
-//        0.0, 0.0, 0.0, 1.0
-//    };
     return rotate_mat_y;
 }
 
@@ -221,11 +201,9 @@ vector<GLfloat> rotation_matrix_z (float theta) {
     if (fabs(sin(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
         sin_ = 0.0;
         sin_adjusted = true;
-        cout << "less than eps sin" << endl;
     } else { sin_ = sin(radians_value); }
     
     if (fabs(cos(radians_value) - 0.0) < numeric_limits<float>::epsilon()) {
-        cout << "less than eps cos" << endl;
         cos_ = 0.0;
     } else { cos_ = cos(radians_value); }
     
@@ -244,46 +222,30 @@ vector<GLfloat> rotation_matrix_z (float theta) {
             0.0, 0.0, 0.0, 1.0
         };
     }
-//    sin_ = sin(radians_value);
-//    cos_ = cos(radians_value);
-//    rotate_mat_z = {
-//        cos_, -sin_, 0.0, 0.0,
-//        sin_, cos_, 0.0, 0.0,
-//        0.0, 0.0, 1.0, 0.0,
-//        0.0, 0.0, 0.0, 1.0
-//    };
 
     return rotate_mat_z;
 }
 
-// Transforms B into homog if not already homog
-vector<GLfloat> mat_mult_helper(vector<GLfloat> B) {
-    if (B.size() != 16) {
-        cout << "IN MMH => turn into homog" << endl;
-        return to_homogenous_coord(B);
-    }
-    return B;
-}
-
 // Perform matrix multiplication for A B
 vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
-    vector<GLfloat> b_homog = mat_mult_helper(B);
     vector<GLfloat> result;
-    int change_element_counter = 0;
+    int change_element = 0;
     float index_value = 0.0;
     bool done_multiplying = false;
     int lower_bound = 0;
     int upper_bound = 4;
-    int pts_in_b = b_homog.size()/4;
+    int pts_in_b = B.size()/4;
     
+    // rows of A, times columns of B => B is always passed in as columns for every
+    // four values
     while (!done_multiplying) {
         vector<GLfloat> row_of_A(A.begin() + lower_bound, A.begin() + upper_bound);
-        change_element_counter = 0;
+        change_element = 0;
         
         for (int i = 0; i < pts_in_b; i++) {
             for (int i = 0; i < row_of_A.size(); i++) {
-                index_value = index_value + (row_of_A[i] * b_homog[change_element_counter]);
-                change_element_counter = change_element_counter + 1;
+                index_value = index_value + (row_of_A[i] * B[change_element]);
+                change_element = change_element + 1;
                 
                 if (i == 3) {
                     result.push_back(index_value);
@@ -297,6 +259,8 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
         upper_bound = upper_bound + 4;
     }
     
+    // orient the results in a way that every four values is a point, or a column
+    // of the results matrix. Too confusing to jump column from column
     int offset = 0;
     vector<GLfloat> result_pts_notation;
     for (int i = 0; i < 4; i++) {
@@ -313,12 +277,13 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
 // Builds a unit cube centered at the origin
 vector<GLfloat> build_cube() {
     // Creates a unit cube by transforming a set of planes
-    vector<GLfloat> back_plane = mat_mult(translation_matrix(0.0, 0.0, -0.5), mat_mult(rotation_matrix_y(180), init_plane()));
-    vector<GLfloat> front_plane = mat_mult(translation_matrix(0.0, 0.0, 0.5), init_plane());
-    vector<GLfloat> right_plane = mat_mult(translation_matrix(0.5, 0.0, 0.0), mat_mult(rotation_matrix_y(90), init_plane()));
-    vector<GLfloat> left_plane = mat_mult(translation_matrix(-0.5, 0.0, 0.0), mat_mult(rotation_matrix_y(-90), init_plane()));
-    vector<GLfloat> top_plane = mat_mult(translation_matrix(0.0, 0.5, 0.0), mat_mult(rotation_matrix_x(-90), init_plane()));
-    vector<GLfloat> bottom_plane = mat_mult(translation_matrix(0.0, -0.5, 0.0), mat_mult(rotation_matrix_x(90), init_plane()));
+    vector<GLfloat> init_plane_homog = to_homogenous_coord(init_plane());
+    vector<GLfloat> back_plane = mat_mult(translation_matrix(0.0, 0.0, -0.5), mat_mult(rotation_matrix_y(180), init_plane_homog));
+    vector<GLfloat> front_plane = mat_mult(translation_matrix(0.0, 0.0, 0.5), init_plane_homog);
+    vector<GLfloat> right_plane = mat_mult(translation_matrix(0.5, 0.0, 0.0), mat_mult(rotation_matrix_y(90), init_plane_homog));
+    vector<GLfloat> left_plane = mat_mult(translation_matrix(-0.5, 0.0, 0.0), mat_mult(rotation_matrix_y(-90), init_plane_homog));
+    vector<GLfloat> top_plane = mat_mult(translation_matrix(0.0, 0.5, 0.0), mat_mult(rotation_matrix_x(-90), init_plane_homog));
+    vector<GLfloat> bottom_plane = mat_mult(translation_matrix(0.0, -0.5, 0.0), mat_mult(rotation_matrix_x(90), init_plane_homog));
     vector<GLfloat> result;
     
     // every 16 points is a plane. every 4 points is a column of a plane
@@ -367,25 +332,16 @@ void init_camera() {
 
 // Construct the scene using objects built from cubes/prisms
 GLfloat* init_scene() {
-    return nullptr;
+    
+//    GLfloat* results_vertices = vector2array(to_cartesian_coord(mat_mult(translation_matrix(1.0, 1.0, 0.0), build_cube())));
+//    vector<GLfloat> test_size = to_cartesian_coord(mat_mult(translation_matrix(1.0, 1.0, 0.0), build_cube()));
+    GLfloat* results_vertices = vector2array(to_cartesian_coord(build_cube()));
+    return results_vertices;
 }
 
 // Construct the color mapping of the scene
 GLfloat* init_color() {
-    return nullptr;
-}
-
-void display_func() {
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-    glRotatef(theta, 0.0, 1.0, 0.0);
-    glRotatef(theta, 1.0, 0.0, 0.0);
-
-    GLfloat *results_vertices = vector2array(to_cartesian_coord(build_cube()));
-    
-    GLfloat colors[] = {
+    vector<GLfloat> colors = {
         // Front plane
         1.0,    0.0,    0.0,
         1.0,    0.0,    0.0,
@@ -418,12 +374,26 @@ void display_func() {
         0.0,    1.0,    1.0,
     };
 
+    GLfloat* results_colors = vector2array(colors);
+    return results_colors;
+}
+
+void display_func() {
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glRotatef(theta, 0.0, 1.0, 0.0);
+    glRotatef(theta, 1.0, 0.0, 0.0);
+
+    GLfloat *results_vertices = init_scene();
+    GLfloat *colors = init_color();
+
     glVertexPointer(3, GL_FLOAT, 0, results_vertices);
-    glColorPointer(3,           // 3 components (r, g, b)
-                   GL_FLOAT,    // Vertex type is GL_FLOAT
-                   0,           // Start position in referenced memory
-                   colors);     // Pointer to memory location to read from
+    glColorPointer(3, GL_FLOAT, 0, colors);
     glDrawArrays(GL_QUADS, 0, 4*6);
+    delete results_vertices;
+    delete colors;
     glFlush();			//Finish rendering
     glutSwapBuffers();
 }
@@ -449,10 +419,8 @@ int main (int argc, char **argv) {
     glutIdleFunc(idle_func);
 
     // Render our world
-    
     glutMainLoop();
-    cout << "passed main loop" << endl;
-
+    
     // Remember to call "delete" on your dynmically allocated arrays
     // such that you don't suffer from memory leaks. e.g.
     // delete arr;
