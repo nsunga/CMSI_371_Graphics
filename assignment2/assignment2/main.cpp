@@ -49,12 +49,7 @@ vector<GLfloat> init_plane() {
         -0.5,   -0.5,   +0.0,
         +0.5,   -0.5,   +0.0
     };
-//    vector<GLfloat> vertices = {
-//        +1.0,   +1.0,   +0.0,
-//        -1.0,   +1.0,   +0.0,
-//        -1.0,   -1.0,   +0.0,
-//        +1.0,   -1.0,   +0.0
-//    };
+
     return vertices;
 }
 
@@ -87,12 +82,7 @@ vector<GLfloat> to_cartesian_coord(vector<GLfloat> homogenous_coords) {
     
     for (int i = 0; i < homogenous_coords.size(); i++) {
         if ((i + 1) % 4 != 0) { result.push_back(homogenous_coords[i]); }
-        else {
-            cout << "value: " << homogenous_coords[i] << endl;
-            counter = counter + 1;
-        }
     }
-    cout << "counter: " << counter << endl;
     return result;
 }
 
@@ -322,16 +312,15 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
 
 // Builds a unit cube centered at the origin
 vector<GLfloat> build_cube() {
-    vector<GLfloat> back_plane = mat_mult(translation_matrix(0.0, 0.0, -1.0), mat_mult(rotation_matrix_y(180), init_plane()));
-    vector<GLfloat> front_plane = mat_mult(translation_matrix(0.0, 0.0, 1.0), init_plane());
-    vector<GLfloat> right_plane = mat_mult(translation_matrix(1.0, 0.0, 0.0), mat_mult(rotation_matrix_y(90), init_plane()));
-    vector<GLfloat> left_plane = mat_mult(translation_matrix(-1.0, 0.0, 0.0), mat_mult(rotation_matrix_y(-90), init_plane()));
-    vector<GLfloat> top_plane = mat_mult(translation_matrix(0.0, 1.0, 0.0), mat_mult(rotation_matrix_x(-90), init_plane()));
-    vector<GLfloat> bottom_plane = mat_mult(translation_matrix(0.0, -1.0, 0.0), mat_mult(rotation_matrix_x(90), init_plane()));
+    // Creates a unit cube by transforming a set of planes
+    vector<GLfloat> back_plane = mat_mult(translation_matrix(0.0, 0.0, -0.5), mat_mult(rotation_matrix_y(180), init_plane()));
+    vector<GLfloat> front_plane = mat_mult(translation_matrix(0.0, 0.0, 0.5), init_plane());
+    vector<GLfloat> right_plane = mat_mult(translation_matrix(0.5, 0.0, 0.0), mat_mult(rotation_matrix_y(90), init_plane()));
+    vector<GLfloat> left_plane = mat_mult(translation_matrix(-0.5, 0.0, 0.0), mat_mult(rotation_matrix_y(-90), init_plane()));
+    vector<GLfloat> top_plane = mat_mult(translation_matrix(0.0, 0.5, 0.0), mat_mult(rotation_matrix_x(-90), init_plane()));
+    vector<GLfloat> bottom_plane = mat_mult(translation_matrix(0.0, -0.5, 0.0), mat_mult(rotation_matrix_x(90), init_plane()));
     vector<GLfloat> result;
     
-    vector<GLfloat> front_plane_cart = to_cartesian_coord(front_plane);
-
     // every 16 points is a plane. every 4 points is a column of a plane
     for (int i = 0; i < front_plane.size(); i++) { result.push_back(front_plane[i]); }
     for (int i = 0; i < back_plane.size(); i++) { result.push_back(back_plane[i]); }
@@ -339,13 +328,8 @@ vector<GLfloat> build_cube() {
     for (int i = 0; i < left_plane.size(); i++) { result.push_back(left_plane[i]); }
     for (int i = 0; i < top_plane.size(); i++) { result.push_back(top_plane[i]); }
     for (int i = 0; i < bottom_plane.size(); i++) { result.push_back(bottom_plane[i]); }
-    // Creates a unit cube by transforming a set of planes
     
-//    cout << "result size: " << result.size() << endl;
-    
-//    return to_cartesian_coord(result);
     return result;
-//    return front_plane_cart;
 }
 
 /**************************************************
@@ -462,7 +446,7 @@ int main (int argc, char **argv) {
     
     // Set up our display function
     glutDisplayFunc(display_func);
-//    glutIdleFunc(idle_func);
+    glutIdleFunc(idle_func);
 
     // Render our world
     
