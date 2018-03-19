@@ -265,7 +265,7 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
     // of the results matrix. Too confusing to jump column from column
     int offset = 0;
     vector<GLfloat> result_pts_notation;
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < result.size()/4; i++) {
         for (int j = 0; j < 4; j++) {
             result_pts_notation.push_back(result[i + offset]);
             offset = offset + 4;
@@ -336,8 +336,8 @@ void init_camera() {
 GLfloat* init_scene() {
 
 //    tried doing tranformations to the cube but canvas was a mess
-//    GLfloat* results_vertices = vector2array(to_cartesian_coord(mat_mult(translation_matrix(1.0, 1.0, 0.0), build_cube())));
-    GLfloat* results_vertices = vector2array(to_cartesian_coord(build_cube()));
+    GLfloat* results_vertices = vector2array(to_cartesian_coord(mat_mult(translation_matrix(1.0, 1.0, 1.0), build_cube())));
+//    GLfloat* results_vertices = vector2array(to_cartesian_coord(build_cube()));
     return results_vertices;
 }
 
