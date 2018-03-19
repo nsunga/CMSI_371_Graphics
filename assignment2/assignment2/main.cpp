@@ -246,18 +246,14 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
         change_element = 0;
         
         for (int i = 0; i < pts_in_b; i++) {
-            for (int i = 0; i < row_of_A.size(); i++) {
-                index_value = index_value + (row_of_A[i] * B[change_element]);
+            for (int j = 0; j < row_of_A.size(); j++) {
+                index_value = index_value + (row_of_A[j] * B[change_element]);
                 change_element = change_element + 1;
-                
-                if (i == 3) {
-                    result.push_back(index_value);
-                    index_value = 0.0;
-                }
-                
-                if (upper_bound == A.size()) { done_multiplying = true; }
             }
+            result.push_back(index_value);
+            index_value = 0.0;
         }
+        if (upper_bound == A.size()) { done_multiplying = true; }
         lower_bound = lower_bound + 4;
         upper_bound = upper_bound + 4;
     }
@@ -296,6 +292,7 @@ vector<GLfloat> build_cube() {
     for (int i = 0; i < left_plane.size(); i++) { result.push_back(left_plane[i]); }
     for (int i = 0; i < top_plane.size(); i++) { result.push_back(top_plane[i]); }
     for (int i = 0; i < bottom_plane.size(); i++) { result.push_back(bottom_plane[i]); }
+    // 4 x 24 essentially. 24 col => 24 points
     
     return result;
 }
@@ -337,8 +334,23 @@ void init_camera() {
 GLfloat* init_scene() {
 
 //    tried doing tranformations to the cube but canvas was a mess
-    GLfloat* results_vertices = vector2array(to_cartesian_coord(mat_mult(translation_matrix(1.0, 1.0, 1.0), build_cube())));
-//    GLfloat* results_vertices = vector2array(to_cartesian_coord(build_cube()));
+//    vector<GLfloat> cube_points = build_cube();
+    
+//    for (int i = 0; i < cube_points.size(); i++) {
+//        cout << cube_points[i] << ", ";
+//        if ((i + 1) % 4 == 0) { cout << endl; }
+//    }
+    
+//    vector<GLfloat> result = mat_mult(translation_matrix(1.0, 1.0, 1.0), build_cube());
+    
+//    
+//    for (int i = 0; i < result.size(); i++) {
+//        cout << result[i] << ", ";
+//        if ((i + 1) % 4 == 0) { cout << endl; }
+//    }
+    // print this out
+//    GLfloat* results_vertices = vector2array(to_cartesian_coord(mat_mult(translation_matrix(1.0, 1.0, 1.0), build_cube())));
+    GLfloat* results_vertices = vector2array(to_cartesian_coord(build_cube()));
     return results_vertices;
 }
 
