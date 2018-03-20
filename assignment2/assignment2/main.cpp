@@ -328,15 +328,33 @@ void init_camera() {
     // Camera parameters
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(50.0, 1.0, 3.0, 7.0);
-    gluLookAt(2.0, 3.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluPerspective(70.0, 1.0, 3.0, 12.0);
+//    gluLookAt(2.0, 3.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluLookAt(0.0, 4.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+
 }
 
 // Construct the scene using objects built from cubes/prisms
 GLfloat* init_scene() {
-    GLfloat* results_vertices = vector2array(to_cartesian_coord(mat_mult(translation_matrix(1.0, 1.0, 1.0), build_cube())));
+    vector<GLfloat> cube = to_cartesian_coord(build_cube());
+    vector<GLfloat> trans_cube = to_cartesian_coord(mat_mult(translation_matrix(1.0, 1.0, 1.0), build_cube()));
+    vector<GLfloat> scaled_cube = to_cartesian_coord(mat_mult(scaling_matrix(2.5, 0.5, 2.0), build_cube()));
+    
+//    vector<GLfloat> tingy;
+//    for (int i = 0; i < cube.size(); i++) {
+//        tingy.push_back(cube[i]);
+//    }
+//    for (int i = 0; i < trans_cube.size(); i++) {
+//        tingy.push_back(trans_cube[i]);
+//    }
+    
+    GLfloat* results = vector2array(scaled_cube);
+//    GLfloat* results_vertices = vector2array(to_cartesian_coord(mat_mult(translation_matrix(1.0, 1.0, 1.0), build_cube())));
+//    GLfloat* another_result = vector2array(to_cartesian_coord(build_cube()));
+
 //    GLfloat* results_vertices = vector2array(to_cartesian_coord(build_cube()));
-    return results_vertices;
+//    return results_vertices;
+    return results;
 }
 
 // Construct the color mapping of the scene
