@@ -238,16 +238,11 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
     int upper_bound = 4;
     // pts in b is related to number of columns in B
     int pts_in_b = B.size()/4;
-//    cout << "pts_in_b" << pts_in_b << endl;
     
     // rows of A, times columns of B => B is always passed in as columns for every
     // four values
     while (!done_multiplying) {
         vector<GLfloat> row_of_A(A.begin() + lower_bound, A.begin() + upper_bound);
-//        for (int i = 0; i < row_of_A.size(); i++) {
-//            cout << row_of_A[i] << ", ";
-//            if (i + 1 == row_of_A.size()) { cout << endl; }
-//        }
         change_element = 0;
         
         for (int i = 0; i < pts_in_b; i++) {
@@ -265,13 +260,13 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
     
     // orient the results in a way that every four values is a point, or a column
     // of the results matrix. Too confusing to jump column from column
+    // Offset determined by #of points. Next value in a point is that index, plus offset.
     int offset = 0;
-    // error is in the offset. Not always +4 if its not a 4x4 matrix.
     vector<GLfloat> result_pts_notation;
+    
     for (int i = 0; i < result.size()/4; i++) {
         for (int j = 0; j < 4; j++) {
             result_pts_notation.push_back(result[i + offset]);
-//            offset = offset + 4;
             offset = offset + result.size()/4;
         }
         offset = 0;
@@ -301,7 +296,6 @@ vector<GLfloat> build_cube() {
     for (int i = 0; i < bottom_plane.size(); i++) { result.push_back(bottom_plane[i]); }
     // 4 x 24 essentially. 24 col => 24 points
     
-    // the issue is throwing B already in points notation, wait no.
     return result;
 }
 
@@ -340,26 +334,6 @@ void init_camera() {
 
 // Construct the scene using objects built from cubes/prisms
 GLfloat* init_scene() {
-
-//    tried doing tranformations to the cube but canvas was a mess
-//    vector<GLfloat> cube_points = build_cube();
-//    
-//    for (int i = 0; i < cube_points.size(); i++) {
-//        cout << cube_points[i] << ", ";
-//        if ((i + 1) % 4 == 0) { cout << endl; }
-//    }
-//    
-//    vector<GLfloat> result = mat_mult(translation_matrix(1.0, 1.0, 1.0), build_cube());
-//    
-//    cout << endl;
-//    cout << endl;
-//    cout << endl;
-//    for (int i = 0; i < result.size(); i++) {
-//        cout << result[i] << ", ";
-//        if ((i + 1) % 4 == 0) { cout << endl; }
-//    }
-    
-    // print this out
     GLfloat* results_vertices = vector2array(to_cartesian_coord(mat_mult(translation_matrix(1.0, 1.0, 1.0), build_cube())));
 //    GLfloat* results_vertices = vector2array(to_cartesian_coord(build_cube()));
     return results_vertices;
@@ -442,7 +416,7 @@ int main (int argc, char **argv) {
     
     // Set up our display function
     glutDisplayFunc(display_func);
-    glutIdleFunc(idle_func);
+//    glutIdleFunc(idle_func);
 
     // Render our world
     glutMainLoop();
