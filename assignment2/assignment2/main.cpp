@@ -299,6 +299,20 @@ vector<GLfloat> build_cube() {
     return result;
 }
 
+vector<GLfloat> build_bed() {
+    vector<GLfloat> bottom_frame = to_cartesian_coord(mat_mult(scaling_matrix(2.0, 0.5, 4.0), build_cube()));
+    vector<GLfloat> actual_bed = to_cartesian_coord(mat_mult(scaling_matrix(1.5, 0.7, 3.5), mat_mult(translation_matrix(0.0, 0.85, 0.0), build_cube())));
+    vector<GLfloat> back_frame = to_cartesian_coord(mat_mult(translation_matrix(0.0, 0.7, 1.8),mat_mult(rotation_matrix_x(90), mat_mult(scaling_matrix(2.3, 0.4, 1.3), build_cube()))));
+    
+//    cout << back_frame.size() << endl;
+    vector<GLfloat> complete_bed;
+    for (int i = 0; i < bottom_frame.size(); i++) { complete_bed.push_back(bottom_frame[i]); }
+    for (int i = 0; i < actual_bed.size(); i++) { complete_bed.push_back(actual_bed[i]); }
+    for (int i = 0; i < back_frame.size(); i++) { complete_bed.push_back(back_frame[i]); }
+
+    return complete_bed;
+}
+
 /**************************************************
  *            Camera and World Modeling           *
  *                                                *
@@ -330,7 +344,7 @@ void init_camera() {
     glLoadIdentity();
     gluPerspective(70.0, 1.0, 3.0, 12.0);
 //    gluLookAt(2.0, 3.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-    gluLookAt(0.0, 4.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluLookAt(5.0, 3.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 }
 
@@ -338,58 +352,110 @@ void init_camera() {
 GLfloat* init_scene() {
     vector<GLfloat> cube = to_cartesian_coord(build_cube());
     vector<GLfloat> trans_cube = to_cartesian_coord(mat_mult(translation_matrix(1.0, 1.0, 1.0), build_cube()));
-    vector<GLfloat> scaled_cube = to_cartesian_coord(mat_mult(scaling_matrix(2.5, 0.5, 2.0), build_cube()));
-    
-//    vector<GLfloat> tingy;
-//    for (int i = 0; i < cube.size(); i++) {
-//        tingy.push_back(cube[i]);
-//    }
-//    for (int i = 0; i < trans_cube.size(); i++) {
-//        tingy.push_back(trans_cube[i]);
-//    }
-    
-    GLfloat* results = vector2array(scaled_cube);
-//    GLfloat* results_vertices = vector2array(to_cartesian_coord(mat_mult(translation_matrix(1.0, 1.0, 1.0), build_cube())));
-//    GLfloat* another_result = vector2array(to_cartesian_coord(build_cube()));
-
-//    GLfloat* results_vertices = vector2array(to_cartesian_coord(build_cube()));
-//    return results_vertices;
+    vector<GLfloat> bed = build_bed();
+    GLfloat* results = vector2array(bed);
     return results;
 }
 
 // Construct the color mapping of the scene
 GLfloat* init_color() {
     vector<GLfloat> colors = {
+        // Bottom frame
         // Front plane
-        1.0,    0.0,    0.0,
-        1.0,    0.0,    0.0,
-        1.0,    0.0,    0.0,
-        1.0,    0.0,    0.0,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
         // Back plane
-        0.0,    1.0,    0.0,
-        0.0,    1.0,    0.0,
-        0.0,    1.0,    0.0,
-        0.0,    1.0,    0.0,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
         // Right
-        0.0,    0.0,    1.0,
-        0.0,    0.0,    1.0,
-        0.0,    0.0,    1.0,
-        0.0,    0.0,    1.0,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
         // Left
-        1.0,    1.0,    0.0,
-        1.0,    1.0,    0.0,
-        1.0,    1.0,    0.0,
-        1.0,    1.0,    0.0,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
         // Top
-        1.0,    0.0,    1.0,
-        1.0,    0.0,    1.0,
-        1.0,    0.0,    1.0,
-        1.0,    0.0,    1.0,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
         // Bottom
-        0.0,    1.0,    1.0,
-        0.0,    1.0,    1.0,
-        0.0,    1.0,    1.0,
-        0.0,    1.0,    1.0,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // End Bottom frame
+        // Bed
+        // Front plane
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        // Back plane
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        // Right
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        // Left
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        // Top
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        // Bottom
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        0.980, 0.922, 0.843,
+        // End Bed
+        // Back frame
+        // Front plane
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // Back plane
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // Right
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // Left
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // Top
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // Bottom
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // End Back frame
     };
 
     GLfloat* results_colors = vector2array(colors);
@@ -409,7 +475,7 @@ void display_func() {
 
     glVertexPointer(3, GL_FLOAT, 0, results_vertices);
     glColorPointer(3, GL_FLOAT, 0, colors);
-    glDrawArrays(GL_QUADS, 0, 4*6);
+    glDrawArrays(GL_QUADS, 0, 4*18);
     delete results_vertices;
     delete colors;
     glFlush();			//Finish rendering
