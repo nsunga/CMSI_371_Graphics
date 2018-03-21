@@ -301,16 +301,22 @@ vector<GLfloat> build_cube() {
 
 vector<GLfloat> build_bed() {
     vector<GLfloat> bottom_frame = to_cartesian_coord(mat_mult(scaling_matrix(2.0, 0.5, 4.0), build_cube()));
-    vector<GLfloat> actual_bed = to_cartesian_coord(mat_mult(scaling_matrix(1.5, 0.7, 3.5), mat_mult(translation_matrix(0.0, 0.85, 0.0), build_cube())));
-    vector<GLfloat> back_frame = to_cartesian_coord(mat_mult(translation_matrix(0.0, 0.7, 1.8),mat_mult(rotation_matrix_x(90), mat_mult(scaling_matrix(2.3, 0.4, 1.3), build_cube()))));
+    vector<GLfloat> actual_bed = to_cartesian_coord(mat_mult(scaling_matrix(1.5, 0.7, 3.5),
+                                                    mat_mult(translation_matrix(0.0, 0.85, 0.0), build_cube())));
+    vector<GLfloat> back_frame = to_cartesian_coord(mat_mult(translation_matrix(0.0, 0.7, 1.8),
+                                                    mat_mult(rotation_matrix_x(90), mat_mult(scaling_matrix(2.3, 0.4, 1.3), build_cube()))));
     
-//    cout << back_frame.size() << endl;
     vector<GLfloat> complete_bed;
     for (int i = 0; i < bottom_frame.size(); i++) { complete_bed.push_back(bottom_frame[i]); }
     for (int i = 0; i < actual_bed.size(); i++) { complete_bed.push_back(actual_bed[i]); }
     for (int i = 0; i < back_frame.size(); i++) { complete_bed.push_back(back_frame[i]); }
 
     return complete_bed;
+}
+
+vector<GLfloat> build_dresser() {
+    vector<GLfloat> dresser = to_cartesian_coord(build_cube());
+    return dresser;
 }
 
 /**************************************************
@@ -350,9 +356,8 @@ void init_camera() {
 
 // Construct the scene using objects built from cubes/prisms
 GLfloat* init_scene() {
-    vector<GLfloat> cube = to_cartesian_coord(build_cube());
-    vector<GLfloat> trans_cube = to_cartesian_coord(mat_mult(translation_matrix(1.0, 1.0, 1.0), build_cube()));
     vector<GLfloat> bed = build_bed();
+    vector<GLfloat> dresser = build_dresser();
     GLfloat* results = vector2array(bed);
     return results;
 }
