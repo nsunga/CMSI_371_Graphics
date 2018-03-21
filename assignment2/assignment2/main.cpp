@@ -333,6 +333,27 @@ vector<GLfloat> build_dresser() {
     return conjoined;
 }
 
+vector<GLfloat> build_chair() {
+    vector<GLfloat> leg = to_cartesian_coord(mat_mult(translation_matrix(2.5, -0.1, -2.5),
+                                                      mat_mult(scaling_matrix(0.2, 0.2, 0.2), build_cube())));
+    vector<GLfloat> leg_two = to_cartesian_coord(mat_mult(translation_matrix(2.0, -0.1, -2.5),
+                                                      mat_mult(scaling_matrix(0.2, 0.2, 0.2), build_cube())));
+    vector<GLfloat> leg_three = to_cartesian_coord(mat_mult(translation_matrix(2.5, -0.1, -2.0),
+                                                          mat_mult(scaling_matrix(0.2, 0.2, 0.2), build_cube())));
+    vector<GLfloat> leg_four = to_cartesian_coord(mat_mult(translation_matrix(2.0, -0.1, -2.0),
+                                                          mat_mult(scaling_matrix(0.2, 0.2, 0.2), build_cube())));
+    vector<GLfloat> chair_body = to_cartesian_coord(mat_mult(translation_matrix(2.2, 0.5, -2.2), build_cube()));
+    
+    vector<GLfloat> conjoined;
+    for (int i = 0; i < leg.size(); i++) { conjoined.push_back(leg[i]); }
+    for (int i = 0; i < leg_two.size(); i++) { conjoined.push_back(leg_two[i]); }
+    for (int i = 0; i < leg_three.size(); i++) { conjoined.push_back(leg_three[i]); }
+    for (int i = 0; i < leg_four.size(); i++) { conjoined.push_back(leg_four[i]); }
+    for (int i = 0; i < chair_body.size(); i++) { conjoined.push_back(chair_body[i]); }
+
+    
+    return conjoined;
+}
 /**************************************************
  *            Camera and World Modeling           *
  *                                                *
@@ -364,7 +385,7 @@ void init_camera() {
     glLoadIdentity();
     gluPerspective(70.0, 1.0, 3.0, 12.0);
 //    gluLookAt(2.0, 3.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-    gluLookAt(6.0, 5.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluLookAt(6.0, 3.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 }
 
@@ -372,9 +393,11 @@ void init_camera() {
 GLfloat* init_scene() {
     vector<GLfloat> bed = build_bed();
     vector<GLfloat> dresser = build_dresser();
+    vector<GLfloat> chair = build_chair();
     vector<GLfloat> conjoined;
     for (int i = 0; i < bed.size(); i++) { conjoined.push_back(bed[i]); }
     for (int i = 0; i < dresser.size(); i++) { conjoined.push_back(dresser[i]); }
+    for (int i = 0; i < chair.size(); i++) { conjoined.push_back(chair[i]); }
 
     GLfloat* results = vector2array(conjoined);
     return results;
@@ -415,6 +438,7 @@ GLfloat* init_color() {
         0.5f, 0.35f, 0.05f,
         0.5f, 0.35f, 0.05f,
         // End Bottom frame
+        
         // Bed
         // Front plane
         0.980, 0.922, 0.843,
@@ -447,6 +471,7 @@ GLfloat* init_color() {
         0.980, 0.922, 0.843,
         0.980, 0.922, 0.843,
         // End Bed
+        
         // Back frame
         // Front plane
         0.5f, 0.35f, 0.05f,
@@ -479,6 +504,7 @@ GLfloat* init_color() {
         0.5f, 0.35f, 0.05f,
         0.5f, 0.35f, 0.05f,
         // End Back frame
+        
         // Dresser
         // Front plane
         0.5f, 0.35f, 0.05f,
@@ -511,6 +537,7 @@ GLfloat* init_color() {
         0.5f, 0.35f, 0.05f,
         0.5f, 0.35f, 0.05f,
         // End Dresser
+        
         // Table Top
         // Front plane
         0.663, 0.663, 0.663,
@@ -543,6 +570,7 @@ GLfloat* init_color() {
         0.663, 0.663, 0.663,
         0.663, 0.663, 0.663,
         // End Table Top
+        
         // Table Top
         // Front plane
         0.663, 0.663, 0.663,
@@ -575,6 +603,7 @@ GLfloat* init_color() {
         0.663, 0.663, 0.663,
         0.663, 0.663, 0.663,
         // End Table Top
+        
         // Table Top
         // Front plane
         0.663, 0.663, 0.663,
@@ -607,6 +636,171 @@ GLfloat* init_color() {
         0.663, 0.663, 0.663,
         0.663, 0.663, 0.663,
         // End Table Top
+        
+        // Chair Leg
+        // Front plane
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Back plane
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Right
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Left
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Top
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Bottom
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // End Chair Leg
+        
+        // Chair Leg
+        // Front plane
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Back plane
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Right
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Left
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Top
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Bottom
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // End Chair Leg
+        
+        // Chair Leg
+        // Front plane
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Back plane
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Right
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Left
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Top
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Bottom
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // End Chair Leg
+        
+        // Chair Leg
+        // Front plane
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Back plane
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Right
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Left
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Top
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Bottom
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // End Chair Leg
+        
+        // Bottom frame
+        // Front plane
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // Back plane
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // Right
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // Left
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // Top
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // Bottom
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // End Bottom frame
     };
 
     GLfloat* results_colors = vector2array(colors);
@@ -626,7 +820,7 @@ void display_func() {
 
     glVertexPointer(3, GL_FLOAT, 0, results_vertices);
     glColorPointer(3, GL_FLOAT, 0, colors);
-    glDrawArrays(GL_QUADS, 0, 4*42);
+    glDrawArrays(GL_QUADS, 0, 4*72);
     delete results_vertices;
     delete colors;
     glFlush();			//Finish rendering
