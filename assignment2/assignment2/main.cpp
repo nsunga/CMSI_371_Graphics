@@ -302,21 +302,35 @@ vector<GLfloat> build_cube() {
 vector<GLfloat> build_bed() {
     vector<GLfloat> bottom_frame = to_cartesian_coord(mat_mult(scaling_matrix(2.0, 0.5, 4.0), build_cube()));
     vector<GLfloat> actual_bed = to_cartesian_coord(mat_mult(scaling_matrix(1.5, 0.7, 3.5),
-                                                    mat_mult(translation_matrix(0.0, 0.85, 0.0), build_cube())));
+                                                             mat_mult(translation_matrix(0.0, 0.85, 0.0), build_cube())));
     vector<GLfloat> back_frame = to_cartesian_coord(mat_mult(translation_matrix(0.0, 0.7, 1.8),
-                                                    mat_mult(rotation_matrix_x(90), mat_mult(scaling_matrix(2.3, 0.4, 1.3), build_cube()))));
+                                                             mat_mult(rotation_matrix_x(90),
+                                                             mat_mult(scaling_matrix(2.3, 0.4, 1.3), build_cube()))));
     
-    vector<GLfloat> complete_bed;
-    for (int i = 0; i < bottom_frame.size(); i++) { complete_bed.push_back(bottom_frame[i]); }
-    for (int i = 0; i < actual_bed.size(); i++) { complete_bed.push_back(actual_bed[i]); }
-    for (int i = 0; i < back_frame.size(); i++) { complete_bed.push_back(back_frame[i]); }
+    vector<GLfloat> conjoined;
+    for (int i = 0; i < bottom_frame.size(); i++) { conjoined.push_back(bottom_frame[i]); }
+    for (int i = 0; i < actual_bed.size(); i++) { conjoined.push_back(actual_bed[i]); }
+    for (int i = 0; i < back_frame.size(); i++) { conjoined.push_back(back_frame[i]); }
 
-    return complete_bed;
+    return conjoined;
 }
 
 vector<GLfloat> build_dresser() {
-    vector<GLfloat> dresser = to_cartesian_coord(build_cube());
-    return dresser;
+    vector<GLfloat> dresser = to_cartesian_coord(mat_mult(translation_matrix(-2.5, 0.3, 1.5), build_cube()));
+    vector<GLfloat> table_top = to_cartesian_coord(mat_mult(translation_matrix(-2.5, 0.8, 1.5),
+                                                            mat_mult(scaling_matrix(0.2, 0.2, 0.2), build_cube())));
+    vector<GLfloat> table_top_two = to_cartesian_coord(mat_mult(translation_matrix(-2.8, 0.8, 1.5),
+                                                                mat_mult(scaling_matrix(0.2, 0.2, 0.2), build_cube())));
+    vector<GLfloat> table_top_three = to_cartesian_coord(mat_mult(translation_matrix(-2.55, 0.8, 1.2),
+                                                                mat_mult(scaling_matrix(0.2, 0.2, 0.2), build_cube())));
+    
+    vector<GLfloat> conjoined;
+    for (int i = 0; i < dresser.size(); i++) { conjoined.push_back(dresser[i]); }
+    for (int i = 0; i < table_top.size(); i++) { conjoined.push_back(table_top[i]); }
+    for (int i = 0; i < table_top_two.size(); i++) { conjoined.push_back(table_top_two[i]); }
+    for (int i = 0; i < table_top_three.size(); i++) { conjoined.push_back(table_top_three[i]); }
+
+    return conjoined;
 }
 
 /**************************************************
@@ -350,7 +364,7 @@ void init_camera() {
     glLoadIdentity();
     gluPerspective(70.0, 1.0, 3.0, 12.0);
 //    gluLookAt(2.0, 3.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
-    gluLookAt(5.0, 3.0, 3.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluLookAt(6.0, 5.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
 }
 
@@ -358,7 +372,11 @@ void init_camera() {
 GLfloat* init_scene() {
     vector<GLfloat> bed = build_bed();
     vector<GLfloat> dresser = build_dresser();
-    GLfloat* results = vector2array(bed);
+    vector<GLfloat> conjoined;
+    for (int i = 0; i < bed.size(); i++) { conjoined.push_back(bed[i]); }
+    for (int i = 0; i < dresser.size(); i++) { conjoined.push_back(dresser[i]); }
+
+    GLfloat* results = vector2array(conjoined);
     return results;
 }
 
@@ -461,6 +479,134 @@ GLfloat* init_color() {
         0.5f, 0.35f, 0.05f,
         0.5f, 0.35f, 0.05f,
         // End Back frame
+        // Dresser
+        // Front plane
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // Back plane
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // Right
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // Left
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // Top
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // Bottom
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        0.5f, 0.35f, 0.05f,
+        // End Dresser
+        // Table Top
+        // Front plane
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Back plane
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Right
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Left
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Top
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Bottom
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // End Table Top
+        // Table Top
+        // Front plane
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Back plane
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Right
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Left
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Top
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Bottom
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // End Table Top
+        // Table Top
+        // Front plane
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Back plane
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Right
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Left
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Top
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Bottom
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // End Table Top
     };
 
     GLfloat* results_colors = vector2array(colors);
@@ -473,14 +619,14 @@ void display_func() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     glRotatef(theta, 0.0, 1.0, 0.0);
-    glRotatef(theta, 1.0, 0.0, 0.0);
+//    glRotatef(theta, 1.0, 0.0, 0.0);
 
     GLfloat *results_vertices = init_scene();
     GLfloat *colors = init_color();
 
     glVertexPointer(3, GL_FLOAT, 0, results_vertices);
     glColorPointer(3, GL_FLOAT, 0, colors);
-    glDrawArrays(GL_QUADS, 0, 4*18);
+    glDrawArrays(GL_QUADS, 0, 4*42);
     delete results_vertices;
     delete colors;
     glFlush();			//Finish rendering
@@ -505,7 +651,7 @@ int main (int argc, char **argv) {
     
     // Set up our display function
     glutDisplayFunc(display_func);
-//    glutIdleFunc(idle_func);
+    glutIdleFunc(idle_func);
 
     // Render our world
     glutMainLoop();
