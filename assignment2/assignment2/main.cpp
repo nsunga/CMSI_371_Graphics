@@ -4,15 +4,10 @@
  Name: Sunga, Nick
  
  Collaborators: Daniel Sjarif, Alejandro Zapata
- ** Note: although the assignment should be completed individually
- you may speak with classmates on high level algorithmic concepts. Please
- list their names in this section
  
- Project Summary: I COULD NOT CREATE A SCENE. All I have to show is the unit
- cube with the camera rotating around it. I tried making transformations onto
- the cube in 'init_scene()' to create more interesting objects but the canvas
- was just a mess and looked like "modern art". All methods have been
- implemented though...Pls don't grade too hard.
+ Project Summary: Scene I created is a room. Each object is composed of cubes.
+ Positioning and sizing of objects is done by transformations and applying a
+ transformation on an object applies it on all of its planes.
  ***/
 
 
@@ -30,7 +25,6 @@
 #include <math.h>
 #include <vector>
 #include <limits>
-#include <iostream>
 using namespace std;
 
 /**************************************************
@@ -337,11 +331,11 @@ vector<GLfloat> build_chair() {
     vector<GLfloat> leg = to_cartesian_coord(mat_mult(translation_matrix(2.5, -0.1, -2.5),
                                                       mat_mult(scaling_matrix(0.2, 0.2, 0.2), build_cube())));
     vector<GLfloat> leg_two = to_cartesian_coord(mat_mult(translation_matrix(2.0, -0.1, -2.5),
-                                                      mat_mult(scaling_matrix(0.2, 0.2, 0.2), build_cube())));
+                                                          mat_mult(scaling_matrix(0.2, 0.2, 0.2), build_cube())));
     vector<GLfloat> leg_three = to_cartesian_coord(mat_mult(translation_matrix(2.5, -0.1, -2.0),
-                                                          mat_mult(scaling_matrix(0.2, 0.2, 0.2), build_cube())));
+                                                            mat_mult(scaling_matrix(0.2, 0.2, 0.2), build_cube())));
     vector<GLfloat> leg_four = to_cartesian_coord(mat_mult(translation_matrix(2.0, -0.1, -2.0),
-                                                          mat_mult(scaling_matrix(0.2, 0.2, 0.2), build_cube())));
+                                                           mat_mult(scaling_matrix(0.2, 0.2, 0.2), build_cube())));
     vector<GLfloat> chair_body = to_cartesian_coord(mat_mult(translation_matrix(2.2, 0.5, -2.2), build_cube()));
     
     vector<GLfloat> conjoined;
@@ -352,6 +346,21 @@ vector<GLfloat> build_chair() {
     for (int i = 0; i < chair_body.size(); i++) { conjoined.push_back(chair_body[i]); }
 
     
+    return conjoined;
+}
+
+vector<GLfloat> build_painting() {
+    vector<GLfloat> black_layer = to_cartesian_coord(mat_mult(translation_matrix(2.5, 2.0, 0.5),
+                                                              mat_mult(rotation_matrix_y(90),
+                                                              mat_mult(scaling_matrix(2.0, 1.0, 0.2), build_cube()))));
+    vector<GLfloat> grey_layer = to_cartesian_coord( mat_mult(translation_matrix(2.4, 2.0, 0.5),
+                                                              mat_mult(rotation_matrix_y(90),
+                                                              mat_mult(scaling_matrix(1.5, 0.6, 0.2), build_cube()))));
+    
+    vector<GLfloat> conjoined;
+    for (int i = 0; i < black_layer.size(); i++) { conjoined.push_back(black_layer[i]); }
+    for (int i = 0; i < grey_layer.size(); i++) { conjoined.push_back(grey_layer[i]); }
+
     return conjoined;
 }
 /**************************************************
@@ -394,10 +403,13 @@ GLfloat* init_scene() {
     vector<GLfloat> bed = build_bed();
     vector<GLfloat> dresser = build_dresser();
     vector<GLfloat> chair = build_chair();
+    vector<GLfloat> painting = build_painting();
+    
     vector<GLfloat> conjoined;
     for (int i = 0; i < bed.size(); i++) { conjoined.push_back(bed[i]); }
     for (int i = 0; i < dresser.size(); i++) { conjoined.push_back(dresser[i]); }
     for (int i = 0; i < chair.size(); i++) { conjoined.push_back(chair[i]); }
+    for (int i = 0; i < painting.size(); i++) { conjoined.push_back(painting[i]); }
 
     GLfloat* results = vector2array(conjoined);
     return results;
@@ -769,7 +781,7 @@ GLfloat* init_color() {
         0.663, 0.663, 0.663,
         // End Chair Leg
         
-        // Bottom frame
+        // Chair Body
         // Front plane
         0.5f, 0.35f, 0.05f,
         0.5f, 0.35f, 0.05f,
@@ -800,7 +812,73 @@ GLfloat* init_color() {
         0.5f, 0.35f, 0.05f,
         0.5f, 0.35f, 0.05f,
         0.5f, 0.35f, 0.05f,
-        // End Bottom frame
+        // End Chair Body
+        
+        // Black layer
+        // Front plane
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        // Back plane
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        // Right
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        // Left
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        // Top
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        // Bottom
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        0.000, 0.000, 0.000,
+        // End Black Layer
+
+        // Grey Layer
+        // Front plane
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Back plane
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Right
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Left
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Top
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // Bottom
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        0.663, 0.663, 0.663,
+        // End Grey Layer
     };
 
     GLfloat* results_colors = vector2array(colors);
@@ -820,7 +898,7 @@ void display_func() {
 
     glVertexPointer(3, GL_FLOAT, 0, results_vertices);
     glColorPointer(3, GL_FLOAT, 0, colors);
-    glDrawArrays(GL_QUADS, 0, 4*72);
+    glDrawArrays(GL_QUADS, 0, 4*84);
     delete results_vertices;
     delete colors;
     glFlush();			//Finish rendering
