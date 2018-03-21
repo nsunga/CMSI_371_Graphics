@@ -7,7 +7,8 @@
  
  Project Summary: Scene I created is a room. Each object is composed of cubes.
  Positioning and sizing of objects is done by transformations and applying a
- transformation on an object applies it on all of its planes.
+ transformation on an object applies it on all of its planes. This was fun
+ and challenging.
  ***/
 
 
@@ -64,7 +65,6 @@ vector<GLfloat> to_homogenous_coord(vector<GLfloat> cartesian_coords) {
     
     for (int i = 0; i < cartesian_coords.size(); i++) {
         result.push_back(cartesian_coords[i]);
-
         if ((i + 1) % 3 == 0) { result.push_back(1.0f); }
     }
     
@@ -293,6 +293,7 @@ vector<GLfloat> build_cube() {
     return result;
 }
 
+// returns vector for bed object
 vector<GLfloat> build_bed() {
     vector<GLfloat> bottom_frame = to_cartesian_coord(mat_mult(scaling_matrix(2.0, 0.5, 4.0), build_cube()));
     vector<GLfloat> actual_bed = to_cartesian_coord(mat_mult(scaling_matrix(1.5, 0.7, 3.5),
@@ -309,6 +310,7 @@ vector<GLfloat> build_bed() {
     return conjoined;
 }
 
+// returns vector for dresser object
 vector<GLfloat> build_dresser() {
     vector<GLfloat> dresser = to_cartesian_coord(mat_mult(translation_matrix(-2.5, 0.3, 1.5), build_cube()));
     vector<GLfloat> table_top = to_cartesian_coord(mat_mult(translation_matrix(-2.5, 0.8, 1.5),
@@ -327,6 +329,7 @@ vector<GLfloat> build_dresser() {
     return conjoined;
 }
 
+// returns vector for chair object
 vector<GLfloat> build_chair() {
     vector<GLfloat> leg = to_cartesian_coord(mat_mult(translation_matrix(2.5, -0.1, -2.5),
                                                       mat_mult(scaling_matrix(0.2, 0.2, 0.2), build_cube())));
@@ -349,6 +352,7 @@ vector<GLfloat> build_chair() {
     return conjoined;
 }
 
+// returns vector for painting object
 vector<GLfloat> build_painting() {
     vector<GLfloat> black_layer = to_cartesian_coord(mat_mult(translation_matrix(2.5, 2.0, 0.5),
                                                               mat_mult(rotation_matrix_y(90),
@@ -927,10 +931,6 @@ int main (int argc, char **argv) {
 
     // Render our world
     glutMainLoop();
-    
-    // Remember to call "delete" on your dynmically allocated arrays
-    // such that you don't suffer from memory leaks. e.g.
-    // delete arr;
     
     return 0;
 }
