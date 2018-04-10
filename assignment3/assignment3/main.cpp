@@ -78,9 +78,9 @@ vector<GLfloat> init_plane() {
 // Converts a vector to an array
 GLfloat* vector2array(vector<GLfloat> vec) {
     GLfloat* arr = new GLfloat[vec.size()];
-    for (int i = 0; i < vec.size(); i++) {
-        arr[i] = vec[i];
-    }
+    
+    for (int i = 0; i < vec.size(); i++) { arr[i] = vec[i]; }
+    
     return arr;
 }
 
@@ -88,7 +88,10 @@ GLfloat* vector2array(vector<GLfloat> vec) {
 vector<GLfloat> to_homogenous_coord(vector<GLfloat> cartesian_coords) {
     vector<GLfloat> result;
     
-    // Append the 1 in the 4th dimension to generate homoegenous coordinates
+    for (int i = 0; i < cartesian_coords.size(); i++) {
+        result.push_back(cartesian_coords[i]);
+        if ((i + 1) % 3 == 0) { result.push_back(1.0); }
+    }
     
     return result;
 }
@@ -97,7 +100,9 @@ vector<GLfloat> to_homogenous_coord(vector<GLfloat> cartesian_coords) {
 vector<GLfloat> to_cartesian_coord(vector<GLfloat> homogenous_coords) {
     vector<GLfloat> result;
     
-    // Remove the 1 in the 4th dimension to generate Cartesian coordinates
+    for (int i = 0; i < homogenous_coords.size(); i++) {
+        if (i == 0 || i % 3 != 0) { result.push_back(homogenous_coords[i]); }
+    }
     
     return result;
 }
