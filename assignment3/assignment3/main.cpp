@@ -28,6 +28,7 @@
 #include <vector>
 #include <limits>
 using namespace std;
+float theta = 0.0;
 
 
 
@@ -101,8 +102,12 @@ vector<GLfloat> to_homogenous_coord(vector<GLfloat> cartesian_coords) {
 vector<GLfloat> to_cartesian_coord(vector<GLfloat> homogenous_coords) {
     vector<GLfloat> result;
     
+//    for (int i = 0; i < homogenous_coords.size(); i++) {
+//        if (i == 0 || i % 3 != 0) { result.push_back(homogenous_coords[i]); }
+//    }
+    
     for (int i = 0; i < homogenous_coords.size(); i++) {
-        if (i == 0 || i % 3 != 0) { result.push_back(homogenous_coords[i]); }
+        if ((i + 1) % 4 != 0) { result.push_back(homogenous_coords[i]); }
     }
     
     return result;
@@ -262,9 +267,24 @@ vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
 
 // Builds a unit cube centered at the origin
 vector<GLfloat> build_cube() {
+    // Creates a unit cube by transforming a set of planes
+    vector<GLfloat> init_plane_homog = to_homogenous_coord(init_plane());
+    vector<GLfloat> back_plane = mat_mult(translation_matrix(0.0, 0.0, -0.5), mat_mult(rotation_matrix_y(180), init_plane_homog));
+    vector<GLfloat> front_plane = mat_mult(translation_matrix(0.0, 0.0, 0.5), init_plane_homog);
+    vector<GLfloat> right_plane = mat_mult(translation_matrix(0.5, 0.0, 0.0), mat_mult(rotation_matrix_y(90), init_plane_homog));
+    vector<GLfloat> left_plane = mat_mult(translation_matrix(-0.5, 0.0, 0.0), mat_mult(rotation_matrix_y(-90), init_plane_homog));
+    vector<GLfloat> top_plane = mat_mult(translation_matrix(0.0, 0.5, 0.0), mat_mult(rotation_matrix_x(-90), init_plane_homog));
+    vector<GLfloat> bottom_plane = mat_mult(translation_matrix(0.0, -0.5, 0.0), mat_mult(rotation_matrix_x(90), init_plane_homog));
     vector<GLfloat> result;
     
-    // Creates a unit cube by transforming a set of planes
+    // every 16 values is a plane. every 4 values is a column or point of a plane
+    for (int i = 0; i < front_plane.size(); i++) { result.push_back(front_plane[i]); }
+    for (int i = 0; i < back_plane.size(); i++) { result.push_back(back_plane[i]); }
+    for (int i = 0; i < right_plane.size(); i++) { result.push_back(right_plane[i]); }
+    for (int i = 0; i < left_plane.size(); i++) { result.push_back(left_plane[i]); }
+    for (int i = 0; i < top_plane.size(); i++) { result.push_back(top_plane[i]); }
+    for (int i = 0; i < bottom_plane.size(); i++) { result.push_back(bottom_plane[i]); }
+    // 4 x 24 essentially. 24 col => 24 points
     
     return result;
 }
@@ -378,6 +398,9 @@ void init_camera() {
     // Camera parameters
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
+    gluPerspective(70.0, 1.0, 3.0, 12.0);
+    //    gluLookAt(2.0, 3.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    gluLookAt(6.0, 3.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 }
 
 // Construct the scene using objects built from cubes/prisms
@@ -387,18 +410,67 @@ GLfloat* init_scene() {
 
 // Construct the color mapping of the scene
 GLfloat* init_color() {
-    return nullptr;
+    vector<GLfloat> colors = {
+        // Front plane
+        1.0,    0.0,    0.0,
+        1.0,    0.0,    0.0,
+        1.0,    0.0,    0.0,
+        1.0,    0.0,    0.0,
+        // Back plane
+        0.0,    1.0,    0.0,
+        0.0,    1.0,    0.0,
+        0.0,    1.0,    0.0,
+        0.0,    1.0,    0.0,
+        // Right
+        0.0,    0.0,    1.0,
+        0.0,    0.0,    1.0,
+        0.0,    0.0,    1.0,
+        0.0,    0.0,    1.0,
+        // Left
+        1.0,    1.0,    0.0,
+        1.0,    1.0,    0.0,
+        1.0,    1.0,    0.0,
+        1.0,    1.0,    0.0,
+        // Top
+        1.0,    0.0,    1.0,
+        1.0,    0.0,    1.0,
+        1.0,    0.0,    1.0,
+        1.0,    0.0,    1.0,
+        // Bottom
+        0.0,    1.0,    1.0,
+        0.0,    1.0,    1.0,
+        0.0,    1.0,    1.0,
+        0.0,    1.0,    1.0,
+    };
+    
+    GLfloat* results_colors = vector2array(colors);
+    return results_colors;
 }
 
 void display_func() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    glRotatef(theta, 0.0, 1.0, 0.0);
+    
+    GLfloat *results_vertices = vector2array(to_cartesian_coord(build_cube()));
+    GLfloat *colors = init_color();
+
+    glVertexPointer(3, GL_FLOAT, 0, results_vertices);
+    glColorPointer(3, GL_FLOAT, 0, colors);
+    glDrawArrays(GL_QUADS, 0, 4*6);
+    delete results_vertices;
     // Perform display functions
     
     glFlush();			//Finish rendering
     glutSwapBuffers();
 }
 
+void idle_func() {
+    theta = theta+0.3;
+    display_func();
+}
 
 int main (int argc, char **argv) {
     // Initialize GLUT
@@ -413,6 +485,7 @@ int main (int argc, char **argv) {
     
     // Set up our display function
     glutDisplayFunc(display_func);
+    glutIdleFunc(idle_func);
     // Render our world
     glutMainLoop();
     
