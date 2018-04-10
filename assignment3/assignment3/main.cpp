@@ -216,10 +216,48 @@ vector<GLfloat> rotation_matrix_z (float theta) {
 // Perform matrix multiplication for A B
 vector<GLfloat> mat_mult(vector<GLfloat> A, vector<GLfloat> B) {
     vector<GLfloat> result;
+    int change_element = 0;
+    float index_value = 0.0;
+    bool done_multiplying = false;
+    int lower_bound = 0;
+    int upper_bound = 4;
+    // pts in b is related to number of columns in B
+    int pts_in_b = B.size()/4;
     
-    // Perform matrix multiplication for A B
+    // rows of A, times columns of B => B is always passed in as columns for every
+    // four values
+    while (!done_multiplying) {
+        vector<GLfloat> row_of_A(A.begin() + lower_bound, A.begin() + upper_bound);
+        change_element = 0;
+        
+        for (int i = 0; i < pts_in_b; i++) {
+            for (int j = 0; j < row_of_A.size(); j++) {
+                index_value = index_value + (row_of_A[j] * B[change_element]);
+                change_element = change_element + 1;
+            }
+            result.push_back(index_value);
+            index_value = 0.0;
+        }
+        if (upper_bound == A.size()) { done_multiplying = true; }
+        lower_bound = lower_bound + 4;
+        upper_bound = upper_bound + 4;
+    }
     
-    return result;
+    // orient the results in a way that every four values is a point, or a column
+    // of the results matrix. Too confusing to jump column from column
+    // Offset determined by #of points. Next value in a point is that index, plus offset.
+    int offset = 0;
+    vector<GLfloat> result_pts_notation;
+    
+    for (int i = 0; i < result.size()/4; i++) {
+        for (int j = 0; j < 4; j++) {
+            result_pts_notation.push_back(result[i + offset]);
+            offset = offset + result.size()/4;
+        }
+        offset = 0;
+    }
+    
+    return result_pts_notation;
 }
 
 // Builds a unit cube centered at the origin
