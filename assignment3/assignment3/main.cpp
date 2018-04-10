@@ -26,6 +26,7 @@
 
 #include <math.h>
 #include <vector>
+#include <limits>
 using namespace std;
 
 
@@ -133,13 +134,29 @@ vector<GLfloat> scaling_matrix (float sx, float sy, float sz) {
 }
 
 // Converts degrees to radians
-float degrees_to_radians(float theta) {
-    return theta * (M_PI/180);
-}
+float radians(float ang) { return ang * (M_PI/180); }
 
 // Definition of a rotation matrix along the x-axis theta degrees
 vector<GLfloat> rotation_matrix_x (float theta) {
     vector<GLfloat> rotate_mat_x;
+    float _sin;
+    float _cos;
+    float _radians = radians(theta);
+    bool sin_zero = fabs(sin(_radians) - 0.0) < numeric_limits<float>::epsilon();
+    bool cos_zero = fabs(cos(_radians) - 0.0) < numeric_limits<float>::epsilon();
+    
+    if (sin_zero) { _sin = 0.0; }
+    else { _sin = sin(_radians); }
+    
+    if (cos_zero) { _cos = 0.0; }
+    else { _cos = cos(_radians); }
+    
+    rotate_mat_x = {
+        1.0, 0.0, 0.0, 0.0,
+        0.0, _cos, -_sin, 0.0,
+        0.0, _sin, _cos, 0.0,
+        0.0, 0.0, 0.0, 1.0
+    };
     
     return rotate_mat_x;
 }
