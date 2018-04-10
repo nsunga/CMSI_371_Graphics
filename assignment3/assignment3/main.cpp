@@ -90,7 +90,7 @@ vector<GLfloat> to_homogenous_coord(vector<GLfloat> cartesian_coords) {
     
     for (int i = 0; i < cartesian_coords.size(); i++) {
         result.push_back(cartesian_coords[i]);
-        if ((i + 1) % 3 == 0) { result.push_back(1.0); }
+        if ((i + 1) % 3 == 0) { result.push_back(1.0f); }
     }
     
     return result;
@@ -109,16 +109,32 @@ vector<GLfloat> to_cartesian_coord(vector<GLfloat> homogenous_coords) {
 
 // Definition of a translation matrix
 vector<GLfloat> translation_matrix (float dx, float dy, float dz) {
-    vector<GLfloat> translate_mat;
+    vector<GLfloat> translate_mat = {
+        1.0, 0.0, 0.0, dx,
+        0.0, 1.0, 0.0, dy,
+        0.0, 0.0, 1.0, dz,
+        0.0, 0.0, 0.0, 1.0
+    };
     
     return translate_mat;
 }
 
+
 // Definition of a scaling matrix
 vector<GLfloat> scaling_matrix (float sx, float sy, float sz) {
-    vector<GLfloat> scale_mat;
+    vector<GLfloat> scale_mat = {
+        sx, 0.0, 0.0, 0.0,
+        0.0, sy, 0.0, 0.0,
+        0.0, 0.0, sz, 0.0,
+        0.0, 0.0, 0.0, 1.0
+    };
     
     return scale_mat;
+}
+
+// Converts degrees to radians
+float degrees_to_radians(float theta) {
+    return theta * (M_PI/180);
 }
 
 // Definition of a rotation matrix along the x-axis theta degrees
