@@ -165,6 +165,24 @@ vector<GLfloat> rotation_matrix_x (float theta) {
 // Definition of a rotation matrix along the y-axis by theta degrees
 vector<GLfloat> rotation_matrix_y (float theta) {
     vector<GLfloat> rotate_mat_y;
+    float _sin;
+    float _cos;
+    float _radians = radians(theta);
+    bool sin_zero = fabs(sin(_radians) - 0.0) < numeric_limits<float>::epsilon();
+    bool cos_zero = fabs(cos(_radians) - 0.0) < numeric_limits<float>::epsilon();
+    
+    if (sin_zero) { _sin = 0.0; }
+    else { _sin = sin(_radians); }
+    
+    if (cos_zero) { _cos = 0.0; }
+    else { _cos = cos(_radians); }
+    
+    rotate_mat_y = {
+        _cos, 0.0, _sin, 0.0,
+        0.0, 1.0, 0.0, 0.0,
+        -_sin, 0.0, _cos, 0.0,
+        0.0, 0.0, 0.0, 1.0
+    };
     
     return rotate_mat_y;
 }
