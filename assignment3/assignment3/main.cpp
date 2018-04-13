@@ -375,8 +375,9 @@ ObjectModel apply_shading(ObjectModel object_model, vector<GLfloat> light_source
 
 // Performs the dot product between two vectors
 GLfloat dot_product(vector<GLfloat> A, vector<GLfloat> B) {
-    
-    return 0.0;
+    float result = 0.0;
+    for (int i = 0; i < B.size(); i++) { result += B[i] * A[i]; }
+    return result;
 }
 
 /**************************************************
