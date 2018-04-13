@@ -363,6 +363,16 @@ ObjectModel apply_shading(ObjectModel object_model, vector<GLfloat> light_source
     return object_model;
 }
 
+// Allows for ambience (a vector of 3 values), diffusion (vector of 3 x n values) and specular (vector of 3 x n values)
+// as input to the shading equation
+ObjectModel apply_shading(ObjectModel object_model, vector<GLfloat> light_source, vector<GLfloat> camera,
+                          vector<GLfloat> amb, vector<GLfloat> diff, vector<GLfloat> spec) {
+    vector<GLfloat> colors;
+    
+    object_model.set_colors(colors);
+    return object_model;
+}
+
 // Performs the dot product between two vectors
 GLfloat dot_product(vector<GLfloat> A, vector<GLfloat> B) {
     
