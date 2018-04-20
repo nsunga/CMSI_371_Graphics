@@ -48,7 +48,7 @@ class ObjectModel {
     vector<GLfloat> _base_colors;
     vector<GLfloat> _colors;
 public:
-    ObjectModel();
+    ObjectModel() { };
     vector<GLfloat> get_points() { return _points; };
     vector<GLfloat> get_normals() { return _normals; };
     vector<GLfloat> get_base_colors() { return _base_colors; };
@@ -103,10 +103,6 @@ vector<GLfloat> to_homogenous_coord(vector<GLfloat> cartesian_coords) {
 // Converts Cartesian coordinates to homogeneous coordinates
 vector<GLfloat> to_cartesian_coord(vector<GLfloat> homogenous_coords) {
     vector<GLfloat> result;
-    
-//    for (int i = 0; i < homogenous_coords.size(); i++) {
-//        if (i == 0 || i % 3 != 0) { result.push_back(homogenous_coords[i]); }
-//    }
     
     for (int i = 0; i < homogenous_coords.size(); i++) {
         if ((i + 1) % 4 != 0) { result.push_back(homogenous_coords[i]); }
@@ -328,16 +324,10 @@ vector<GLfloat> generate_normals(vector<GLfloat> points) {
         
         vector<GLfloat> a = { q1[0]-q0[0], q1[1]-q0[1], q1[2]-q0[2] };
         vector<GLfloat> b = { q3[0]-q0[0], q3[1]-q0[1], q3[2]-q0[2] };
-        
-//        for (int i = 0; i < a.size(); i++) { cout << a[i] << " "; }
-//        cout << endl;
-//        for (int i = 0; i < b.size(); i++) { cout << b[i] << " "; }
-//        cout << endl;
-
         vector<GLfloat> c = cross_product(a, b);
-        for (int i = 0; i < c.size(); i++) { normals.push_back(c[i]); }
         
-        // generate here
+        // push back newly generated normal
+        for (int i = 0; i < c.size(); i++) { normals.push_back(c[i]); }
         
         if (upper_bound == points.size()) { done_generating = true; }
         lower_bound += 12;
@@ -498,7 +488,9 @@ void display_func() {
     glLoadIdentity();
     glRotatef(theta, 0.0, 1.0, 0.0);
     
-    GLfloat *results_vertices = vector2array(to_cartesian_coord(build_cube()));
+    ObjectModel cube;
+    cube.set_points(to_cartesian_coord(build_cube()));
+    GLfloat *results_vertices = vector2array(cube.get_points());
     GLfloat *colors = init_color();
 
     glVertexPointer(3, GL_FLOAT, 0, results_vertices);
@@ -517,22 +509,22 @@ void idle_func() {
 }
 
 int main (int argc, char **argv) {
-//    // Initialize GLUT
-//    glutInit(&argc, argv);
-//    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-//    glutInitWindowSize(800, 600);
-//    // Create a window with rendering context and everything else we need
-//    glutCreateWindow("Assignment 3");
-//    
-//    setup();
-//    init_camera();
-//    
-//    // Set up our display function
-//    glutDisplayFunc(display_func);
-//    glutIdleFunc(idle_func);
-//    // Render our world
-//    glutMainLoop();
+    // Initialize GLUT
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+    glutInitWindowSize(800, 600);
+    // Create a window with rendering context and everything else we need
+    glutCreateWindow("Assignment 3");
     
+    setup();
+    init_camera();
+    
+    // Set up our display function
+    glutDisplayFunc(display_func);
+    glutIdleFunc(idle_func);
+    // Render our world
+    glutMainLoop();
+
 //    vector<GLfloat> plane = {
 //        1.0, 0.0, 0.0,
 //        0.0, 1.0, 0.0,
