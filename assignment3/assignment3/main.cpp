@@ -305,6 +305,24 @@ vector<GLfloat> build_cube() {
 // Generates the normals to each surface (plane)
 vector<GLfloat> generate_normals(vector<GLfloat> points) {
     vector<GLfloat> normals;
+    bool done_generating = false;
+    int lower_bound = 0;
+    int upper_bound = 12;
+
+
+    while (!done_generating) {
+        vector<GLfloat> plane(points.begin() + lower_bound, points.begin() + upper_bound);
+        vector<GLfloat> q0(plane.begin(), points.begin() + 3);
+        vector<GLfloat> q1(plane.begin() + 3, points.begin() + 6);
+        vector<GLfloat> q3(plane.begin() + 6, points.begin() + 9);
+        vector<GLfloat> q4(plane.begin() + 9, points.begin() + 12);
+        
+        // generate here
+        
+        if (upper_bound == points.size()) { done_generating = true; }
+        lower_bound += 12;
+        upper_bound += 12;
+    }
     
     // Note: each plane (quad) contains 4 points, choose the points
     // to generate your vectors such that the normals (given by the
@@ -504,10 +522,6 @@ int main (int argc, char **argv) {
 //    // Render our world
 //    glutMainLoop();
     
-    vector<GLfloat> A = { 1, 0, 0 };
-    vector<GLfloat> B = { 0, 1, 0 };
-    vector<GLfloat> cross = cross_product(A, B);
-    for (int i = 0; i < cross.size(); i++) { cout << cross[i] << endl; }
     // Remember to call "delete" on your dynmically allocated arrays
     // such that you don't suffer from memory leaks. e.g.
     // delete arr;
