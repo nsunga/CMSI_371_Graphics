@@ -27,6 +27,8 @@
 #include <math.h>
 #include <vector>
 #include <limits>
+
+#include<iostream>
 using namespace std;
 float theta = 0.0;
 
@@ -315,7 +317,7 @@ vector<GLfloat> generate_normals(vector<GLfloat> points) {
 vector<GLfloat> cross_product(vector<GLfloat> A, vector<GLfloat> B) {
     vector<GLfloat> C;
     C.push_back(A[1]*B[2]-A[2]*B[1]);
-    C.push_back(A[0]*B[2]-A[2]*B[0]);
+    C.push_back(A[2]*B[0]-A[0]*B[2]);
     C.push_back(A[0]*B[1]-A[1]*B[0]);
     return C;
 }
@@ -486,22 +488,26 @@ void idle_func() {
 }
 
 int main (int argc, char **argv) {
-    // Initialize GLUT
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
-    glutInitWindowSize(800, 600);
-    // Create a window with rendering context and everything else we need
-    glutCreateWindow("Assignment 3");
+//    // Initialize GLUT
+//    glutInit(&argc, argv);
+//    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
+//    glutInitWindowSize(800, 600);
+//    // Create a window with rendering context and everything else we need
+//    glutCreateWindow("Assignment 3");
+//    
+//    setup();
+//    init_camera();
+//    
+//    // Set up our display function
+//    glutDisplayFunc(display_func);
+//    glutIdleFunc(idle_func);
+//    // Render our world
+//    glutMainLoop();
     
-    setup();
-    init_camera();
-    
-    // Set up our display function
-    glutDisplayFunc(display_func);
-    glutIdleFunc(idle_func);
-    // Render our world
-    glutMainLoop();
-    
+    vector<GLfloat> A = { 1, 0, 0 };
+    vector<GLfloat> B = { 0, 1, 0 };
+    vector<GLfloat> cross = cross_product(A, B);
+    for (int i = 0; i < cross.size(); i++) { cout << cross[i] << endl; }
     // Remember to call "delete" on your dynmically allocated arrays
     // such that you don't suffer from memory leaks. e.g.
     // delete arr;
