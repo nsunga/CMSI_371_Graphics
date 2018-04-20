@@ -302,6 +302,15 @@ vector<GLfloat> build_cube() {
  *                                                *
  *************************************************/
 
+// Performs the cross product between two vectors
+vector<GLfloat> cross_product(vector<GLfloat> A, vector<GLfloat> B) {
+    vector<GLfloat> C;
+    C.push_back(A[1]*B[2]-A[2]*B[1]);
+    C.push_back(A[2]*B[0]-A[0]*B[2]);
+    C.push_back(A[0]*B[1]-A[1]*B[0]);
+    return C;
+}
+
 // Generates the normals to each surface (plane)
 vector<GLfloat> generate_normals(vector<GLfloat> points) {
     vector<GLfloat> normals;
@@ -317,6 +326,11 @@ vector<GLfloat> generate_normals(vector<GLfloat> points) {
         vector<GLfloat> q3(plane.begin() + 6, points.begin() + 9);
         vector<GLfloat> q4(plane.begin() + 9, points.begin() + 12);
         
+        vector<GLfloat> a = { q1[0]-q0[0], q1[1]-q0[1], q1[2]-q0[2] };
+        vector<GLfloat> b = { q3[0]-q0[0], q3[1]-q0[1], q3[2]-q0[2] };
+        vector<GLfloat> c = cross_product(a, b);
+        for (int i = 0; i < c.size(); i++) { normals.push_back(c[i]); }
+        
         // generate here
         
         if (upper_bound == points.size()) { done_generating = true; }
@@ -329,15 +343,6 @@ vector<GLfloat> generate_normals(vector<GLfloat> points) {
     // cross product, point to the correct direction
     
     return normals;
-}
-
-// Performs the cross product between two vectors
-vector<GLfloat> cross_product(vector<GLfloat> A, vector<GLfloat> B) {
-    vector<GLfloat> C;
-    C.push_back(A[1]*B[2]-A[2]*B[1]);
-    C.push_back(A[2]*B[0]-A[0]*B[2]);
-    C.push_back(A[0]*B[1]-A[1]*B[0]);
-    return C;
 }
 
 
