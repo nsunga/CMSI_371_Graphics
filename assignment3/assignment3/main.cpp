@@ -321,13 +321,19 @@ vector<GLfloat> generate_normals(vector<GLfloat> points) {
 
     while (!done_generating) {
         vector<GLfloat> plane(points.begin() + lower_bound, points.begin() + upper_bound);
-        vector<GLfloat> q0(plane.begin(), points.begin() + 3);
-        vector<GLfloat> q1(plane.begin() + 3, points.begin() + 6);
-        vector<GLfloat> q3(plane.begin() + 6, points.begin() + 9);
-        vector<GLfloat> q4(plane.begin() + 9, points.begin() + 12);
+        vector<GLfloat> q0(plane.begin(), plane.begin() + 3);
+        vector<GLfloat> q1(plane.begin() + 3, plane.begin() + 6);
+        vector<GLfloat> q3(plane.begin() + 6, plane.begin() + 9);
+        vector<GLfloat> q4(plane.begin() + 9, plane.begin() + 12);
         
         vector<GLfloat> a = { q1[0]-q0[0], q1[1]-q0[1], q1[2]-q0[2] };
         vector<GLfloat> b = { q3[0]-q0[0], q3[1]-q0[1], q3[2]-q0[2] };
+        
+//        for (int i = 0; i < a.size(); i++) { cout << a[i] << " "; }
+//        cout << endl;
+//        for (int i = 0; i < b.size(); i++) { cout << b[i] << " "; }
+//        cout << endl;
+
         vector<GLfloat> c = cross_product(a, b);
         for (int i = 0; i < c.size(); i++) { normals.push_back(c[i]); }
         
@@ -527,6 +533,24 @@ int main (int argc, char **argv) {
 //    // Render our world
 //    glutMainLoop();
     
+//    vector<GLfloat> plane = {
+//        1.0, 0.0, 0.0,
+//        0.0, 1.0, 0.0,
+//        2.0, 2.0, 2.0,
+//        1.0, 1.0, 1.0,
+//        1.0, 0.0, 0.0,
+//        0.0, 1.0, 0.0,
+//        2.0, 2.0, 2.0,
+//        1.0, 1.0, 1.0,
+//    };
+//    
+//    vector<GLfloat> normals = generate_normals(plane);
+//    
+//    for (int i = 0; i < normals.size(); i++) {
+//        
+//        cout << normals[i] << " ";
+//        if ((i+1) % 3 == 0) { cout << endl; }
+//    }
     // Remember to call "delete" on your dynmically allocated arrays
     // such that you don't suffer from memory leaks. e.g.
     // delete arr;
