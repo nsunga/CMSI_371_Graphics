@@ -444,41 +444,28 @@ GLfloat* init_scene() {
 
 // Construct the color mapping of the scene
 GLfloat* init_color() {
-    vector<GLfloat> colors = {
-        // Front plane
-        1.0,    0.0,    0.0,
-        1.0,    0.0,    0.0,
-        1.0,    0.0,    0.0,
-        1.0,    0.0,    0.0,
-        // Back plane
-        0.0,    1.0,    0.0,
-        0.0,    1.0,    0.0,
-        0.0,    1.0,    0.0,
-        0.0,    1.0,    0.0,
-        // Right
-        0.0,    0.0,    1.0,
-        0.0,    0.0,    1.0,
-        0.0,    0.0,    1.0,
-        0.0,    0.0,    1.0,
-        // Left
-        1.0,    1.0,    0.0,
-        1.0,    1.0,    0.0,
-        1.0,    1.0,    0.0,
-        1.0,    1.0,    0.0,
-        // Top
-        1.0,    0.0,    1.0,
-        1.0,    0.0,    1.0,
-        1.0,    0.0,    1.0,
-        1.0,    0.0,    1.0,
-        // Bottom
-        0.0,    1.0,    1.0,
-        0.0,    1.0,    1.0,
-        0.0,    1.0,    1.0,
-        0.0,    1.0,    1.0,
-    };
-    
-    GLfloat* results_colors = vector2array(colors);
-    return results_colors;
+    return nullptr;
+}
+
+ObjectModel display_cube() {
+    ObjectModel cube;
+    cube.set_points(to_cartesian_coord(build_cube()));
+    cube.set_normals(generate_normals(cube.get_points()));
+    vector<GLfloat> front = init_base_color(1.0, 0.0, 0.0);
+    vector<GLfloat> back = init_base_color(0.0, 1.0, 0.0);
+    vector<GLfloat> right = init_base_color(0.0, 0.0, 1.0);
+    vector<GLfloat> left = init_base_color(1.0, 1.0, 0.0);
+    vector<GLfloat> top = init_base_color(1.0, 0.0, 1.0);
+    vector<GLfloat> bottom = init_base_color(0.0, 1.0, 1.0);
+    vector<GLfloat> color_pts;
+    for (int i = 0; i < front.size(); i++) { color_pts.push_back(front[i]); }
+    for (int i = 0; i < back.size(); i++) { color_pts.push_back(back[i]); }
+    for (int i = 0; i < right.size(); i++) { color_pts.push_back(right[i]); }
+    for (int i = 0; i < left.size(); i++) { color_pts.push_back(left[i]); }
+    for (int i = 0; i < top.size(); i++) { color_pts.push_back(top[i]); }
+    for (int i = 0; i < bottom.size(); i++) { color_pts.push_back(bottom[i]); }
+    cube.set_base_colors(color_pts);
+    return cube;
 }
 
 void display_func() {
@@ -488,10 +475,9 @@ void display_func() {
     glLoadIdentity();
     glRotatef(theta, 0.0, 1.0, 0.0);
     
-    ObjectModel cube;
-    cube.set_points(to_cartesian_coord(build_cube()));
+    ObjectModel cube = display_cube();
     GLfloat *results_vertices = vector2array(cube.get_points());
-    GLfloat *colors = init_color();
+    GLfloat *colors = vector2array(cube.get_base_colors());
 
     glVertexPointer(3, GL_FLOAT, 0, results_vertices);
     glColorPointer(3, GL_FLOAT, 0, colors);
