@@ -443,16 +443,6 @@ void init_camera() {
     gluLookAt(6.0, 3.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 }
 
-// Construct the scene using objects built from cubes/prisms
-GLfloat* init_scene() {
-    return nullptr;
-}
-
-// Construct the color mapping of the scene
-GLfloat* init_color() {
-    return nullptr;
-}
-
 ObjectModel display_cube() {
     ObjectModel cube;
     cube.set_points(to_cartesian_coord(build_cube()));
@@ -474,6 +464,16 @@ ObjectModel display_cube() {
     return cube;
 }
 
+// Construct the scene using objects built from cubes/prisms
+GLfloat* init_scene() {
+    return vector2array(display_cube().get_points());
+}
+
+// Construct the color mapping of the scene
+GLfloat* init_color() {
+    return vector2array(display_cube().get_base_colors());
+}
+
 void display_func() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
@@ -482,8 +482,8 @@ void display_func() {
     glRotatef(theta, 0.0, 1.0, 0.0);
     
     ObjectModel cube = display_cube();
-    GLfloat *results_vertices = vector2array(cube.get_points());
-    GLfloat *colors = vector2array(cube.get_base_colors());
+    GLfloat *results_vertices = init_scene();
+    GLfloat *colors = init_color();
 
     glVertexPointer(3, GL_FLOAT, 0, results_vertices);
     glColorPointer(3, GL_FLOAT, 0, colors);
@@ -517,24 +517,6 @@ int main (int argc, char **argv) {
     // Render our world
     glutMainLoop();
 
-//    vector<GLfloat> plane = {
-//        1.0, 0.0, 0.0,
-//        0.0, 1.0, 0.0,
-//        2.0, 2.0, 2.0,
-//        1.0, 1.0, 1.0,
-//        1.0, 0.0, 0.0,
-//        0.0, 1.0, 0.0,
-//        2.0, 2.0, 2.0,
-//        1.0, 1.0, 1.0,
-//    };
-//    
-//    vector<GLfloat> normals = generate_normals(plane);
-//    
-//    for (int i = 0; i < normals.size(); i++) {
-//        
-//        cout << normals[i] << " ";
-//        if ((i+1) % 3 == 0) { cout << endl; }
-//    }
     // Remember to call "delete" on your dynmically allocated arrays
     // such that you don't suffer from memory leaks. e.g.
     // delete arr;
