@@ -434,15 +434,16 @@ void setup() {
     glClearColor(1.0, 1.0, 1.0, 0.0);
 }
 
+// camera
 void init_camera() {
     // Camera parameters
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(70.0, 1.0, 3.0, 12.0);
-    //    gluLookAt(2.0, 3.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
     gluLookAt(6.0, 3.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 }
 
+// hard coded light source
 void init_light() {
     // Somewhere in the initialization part of your program…
     glEnable(GL_LIGHTING);
@@ -461,6 +462,7 @@ void init_light() {
     glLightfv(GL_LIGHT0, GL_POSITION, position);
 }
 
+// returns ObjectModel of a cube with normals and color
 ObjectModel display_cube() {
     ObjectModel cube;
     cube.set_points(to_cartesian_coord(build_cube()));
@@ -492,6 +494,7 @@ GLfloat* init_color() {
     return vector2array(display_cube().get_base_colors());
 }
 
+// display function
 void display_func() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     
@@ -513,6 +516,7 @@ void display_func() {
     glutSwapBuffers();
 }
 
+// camera rotation
 void idle_func() {
     theta = theta+0.3;
     display_func();
