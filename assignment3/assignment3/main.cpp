@@ -326,6 +326,12 @@ vector<GLfloat> generate_normals(vector<GLfloat> points) {
         vector<GLfloat> b = { q3[0]-q0[0], q3[1]-q0[1], q3[2]-q0[2] };
         vector<GLfloat> c = cross_product(a, b);
         
+        // unit vector
+        float sigma = 0;
+        for (int i = 0; i < c.size(); i++) { sigma += c[i] * c[i]; }
+        float magnitude = sqrtf(sigma);
+        for (int i = 0; i < c.size(); i++) { c[i] = c[i]/magnitude; }
+        
         // push back newly generated normal
         for (int i = 0; i < c.size(); i++) { normals.push_back(c[i]); }
         
